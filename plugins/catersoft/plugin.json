@@ -1,0 +1,19 @@
+{
+  "name": "catersoft",
+  "displayName": "CaterSoft",
+  "version": "1.0.0",
+  "description": "Plugin chính thức duy nhất của CaterSoft kết hợp bộ kỹ năng nhập liệu cơ bản (Nguyên liệu & ĐVT, Món ăn & Định lượng, Thiết lập thực đơn, Thực đơn tuần & Dự trù ngày, Phần ăn thực tế) với máy chủ CaterSoft MCP đăng nhập OAuth 2.1 theo từng tài khoản (tra cứu, tạo mới và cập nhật danh mục nền đúng quyền màn hình; không chứa công cụ xóa dữ liệu).",
+  "author": {
+    "name": "CaterSoft",
+    "email": "support@catersoft.vn",
+    "url": "https://guide.catersoft.vn"
+  },
+  "homepage": "https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft",
+  "repository": "https://github.com/catersoft-vn/catersoft-plugins",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Kiểm tra tài khoản CaterSoft MCP hiện tại và hướng dẫn thứ tự nhập dữ liệu cho bếp mới",
+    "Tạo đơn vị tính, nguyên liệu Thịt heo, món Thịt kho và khai định lượng sống theo Gam",
+    "Lên món cho Thực đơn tuần, kiểm tra dự trù ngày mai và cập nhật số phần ăn thực tế"
+  ]
+}

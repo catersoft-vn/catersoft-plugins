@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url';
 const JUNK_EXACT = new Set(['.DS_Store', 'Thumbs.db', '__MACOSX']);
 
 export function buildMandatoryRuleCallout(mapSkill = 'cs-ui-ban-do-thuc-don-du-tru') {
-  return `> **Quy tắc bắt buộc (100% UI-Only & 7 Quy tắc Vàng DOM):** Trên Claude Code và Codex, luôn đọc thêm file \`../${mapSkill}/QUY-TAC-BAT-BUOC.md\` trước khi thao tác trình duyệt (Antigravity nạp sẵn qua \`rules/AGENTS.md\`).`;
+  return `> **Quy tắc bắt buộc (An toàn MCP OAuth 2.1 & UI):** Trên Claude Code và Codex, luôn đọc thêm file \`../${mapSkill}/QUY-TAC-BAT-BUOC.md\` trước khi thao tác hoặc gọi công cụ MCP (Antigravity nạp sẵn qua \`rules/AGENTS.md\`).`;
 }
 
 export const MANDATORY_RULE_CALLOUT = buildMandatoryRuleCallout('cs-ui-ban-do-thuc-don-du-tru');
@@ -104,9 +104,39 @@ export function copyCleanTree(srcDir, dstDir, options = {}) {
   }
 }
 
+/** Build AGY mcp_config.json and Claude/Codex standard mcp.json payloads when mcpServerUrl is set. */
+export function buildMcpConfigs(meta) {
+  const url = typeof meta.mcpServerUrl === 'string' ? meta.mcpServerUrl.trim() : '';
+  if (!url) return null;
+  return {
+    agyMcpConfig: {
+      mcpServers: {
+        [meta.name]: {
+          serverUrl: url,
+        },
+      },
+    },
+    standardMcpConfig: {
+      mcpServers: {
+        [meta.name]: {
+          type: 'http',
+          url,
+        },
+      },
+    },
+  };
+}
+
 /** Build the three platform-compliant manifests from one canonical plugin.meta.json. */
-export function buildManifests(meta) {
+export function buildManifests(
+  meta,
+  {
+    claudeMcpConfigPath = './.claude-plugin/mcp.json',
+    codexMcpConfigPath = './.codex-plugin/mcp.json',
+  } = {},
+) {
   const mapSkill = meta.mapSkill || 'cs-ui-ban-do-thuc-don-du-tru';
+  const hasMcp = typeof meta.mcpServerUrl === 'string' && meta.mcpServerUrl.trim().length > 0;
   const agyPrompts = (meta.agySuggestedPrompts || []).slice(0, 3);
   const agyManifest = {
     name: meta.name,
@@ -129,6 +159,7 @@ export function buildManifests(meta) {
     repository: meta.repository,
     license: meta.license || 'MIT',
     keywords: meta.keywords || [],
+    ...(hasMcp ? { mcpServers: claudeMcpConfigPath } : {}),
   };
 
   const codexShortDesc = meta.codexShortDescription || meta.shortDescription;
@@ -150,6 +181,7 @@ export function buildManifests(meta) {
     license: meta.license || 'MIT',
     keywords: meta.keywords || [],
     skills: './skills/',
+    ...(hasMcp ? { mcpServers: codexMcpConfigPath } : {}),
     interface: {
       displayName: meta.codexDisplayName || meta.displayName,
       shortDescription: codexShortDesc,
@@ -173,7 +205,7 @@ export function buildManifests(meta) {
         publication: {
           release_notes:
             meta.releaseNotes ||
-            `Phát hành ${meta.name} v${meta.version} (100% thao tác qua giao diện Web CaterSoft).`,
+            `Phát hành ${meta.name} v${meta.version} (kỹ năng nhập liệu Giai đoạn 1 và máy chủ MCP OAuth 2.1 theo tài khoản).`,
           translations: {
             'vi-VN': {
               subtitle: codexShortDesc,
@@ -193,7 +225,7 @@ function buildClaudeMarketplaceCatalog(metas, sourcePrefix) {
     $schema: 'https://anthropic.com/claude-code/marketplace.schema.json',
     name: 'catersoft-plugins',
     description:
-      'Marketplace chính thức của CaterSoft cung cấp các bộ kỹ năng AI thao tác phần mềm qua giao diện Web (UI-only).',
+      'Marketplace chính thức của CaterSoft cung cấp plugin CaterSoft duy nhất kèm kỹ năng nhập liệu Giai đoạn 1 và máy chủ MCP OAuth 2.1 theo tài khoản.',
     owner: {
       name: 'CaterSoft',
       url: 'https://guide.catersoft.vn',
@@ -286,29 +318,58 @@ export function buildAll({ rootDir, quiet = false, skipZip = false } = {}) {
     const mapSkill = meta.mapSkill || 'cs-ui-ban-do-thuc-don-du-tru';
     metas.push(meta);
 
-    const { agyManifest, claudeManifest, codexManifest } = buildManifests(meta);
+    const mcpConfigs = buildMcpConfigs(meta);
+    const {
+      agyManifest,
+      claudeManifest: repoClaudeManifest,
+      codexManifest: repoCodexManifest,
+    } = buildManifests(meta, {
+      claudeMcpConfigPath: './.claude-plugin/mcp.json',
+      codexMcpConfigPath: './.codex-plugin/mcp.json',
+    });
+    const {
+      claudeManifest: distClaudeManifest,
+      codexManifest: distCodexManifest,
+    } = buildManifests(meta, {
+      claudeMcpConfigPath: './.mcp.json',
+      codexMcpConfigPath: './.mcp.json',
+    });
 
     // 1. Unified repo plugin bundle under plugins/<name>/ for GitHub Marketplace install across all 3 platforms
     const repoPluginDir = path.join(pluginsOutRoot, meta.name);
     copyCommonPluginContent(srcPluginDir, repoPluginDir, { includeRules: true, mapSkill });
     writeJson(path.join(repoPluginDir, 'plugin.json'), agyManifest);
-    writeJson(path.join(repoPluginDir, '.claude-plugin', 'plugin.json'), claudeManifest);
-    writeJson(path.join(repoPluginDir, '.codex-plugin', 'plugin.json'), codexManifest);
+    writeJson(path.join(repoPluginDir, '.claude-plugin', 'plugin.json'), repoClaudeManifest);
+    writeJson(path.join(repoPluginDir, '.codex-plugin', 'plugin.json'), repoCodexManifest);
+    if (mcpConfigs) {
+      writeJson(path.join(repoPluginDir, 'mcp_config.json'), mcpConfigs.agyMcpConfig);
+      writeJson(path.join(repoPluginDir, '.claude-plugin', 'mcp.json'), mcpConfigs.standardMcpConfig);
+      writeJson(path.join(repoPluginDir, '.codex-plugin', 'mcp.json'), mcpConfigs.standardMcpConfig);
+    }
 
     // 2. Standalone dist/claude target
     const distClaudePluginDir = path.join(distRoot, 'claude', 'plugins', meta.name);
     copyCommonPluginContent(srcPluginDir, distClaudePluginDir, { includeRules: false, mapSkill });
-    writeJson(path.join(distClaudePluginDir, '.claude-plugin', 'plugin.json'), claudeManifest);
+    writeJson(path.join(distClaudePluginDir, '.claude-plugin', 'plugin.json'), distClaudeManifest);
+    if (mcpConfigs) {
+      writeJson(path.join(distClaudePluginDir, '.mcp.json'), mcpConfigs.standardMcpConfig);
+    }
 
     // 3. Standalone dist/agy target
     const distAgyPluginDir = path.join(distRoot, 'agy', meta.name);
     copyCommonPluginContent(srcPluginDir, distAgyPluginDir, { includeRules: true, mapSkill });
     writeJson(path.join(distAgyPluginDir, 'plugin.json'), agyManifest);
+    if (mcpConfigs) {
+      writeJson(path.join(distAgyPluginDir, 'mcp_config.json'), mcpConfigs.agyMcpConfig);
+    }
 
     // 4. Standalone dist/codex portal archive directory & GitHub-style marketplace snapshot
     const distCodexPluginDir = path.join(distRoot, 'codex', meta.name);
     copyCommonPluginContent(srcPluginDir, distCodexPluginDir, { includeRules: false, mapSkill });
-    writeJson(path.join(distCodexPluginDir, '.codex-plugin', 'plugin.json'), codexManifest);
+    writeJson(path.join(distCodexPluginDir, '.codex-plugin', 'plugin.json'), distCodexManifest);
+    if (mcpConfigs) {
+      writeJson(path.join(distCodexPluginDir, '.mcp.json'), mcpConfigs.standardMcpConfig);
+    }
 
     if (!skipZip) {
       const zipName = `${meta.name}-v${meta.version}.zip`;

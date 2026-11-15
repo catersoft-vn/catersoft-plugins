@@ -10,6 +10,7 @@ import {
   buildAll,
   buildMandatoryRuleCallout,
   buildManifests,
+  buildMcpConfigs,
   copyCleanTree,
   injectMandatoryRuleNotice,
   isJunkName,
@@ -21,10 +22,7 @@ import { contrastRatio, validateOpenAiSubmissionRules } from './verify-plugins.m
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const EXPECTED_PLUGINS = [
-  { name: 'catersoft-doanh-thu-pnl', version: '1.0.0', mapSkill: 'cs-ui-ban-do-doanh-thu-pnl', leafCount: 4 },
-  { name: 'catersoft-fifo-trading', version: '1.0.0', mapSkill: 'cs-ui-ban-do-fifo-trading', leafCount: 4 },
-  { name: 'catersoft-mua-hang-kho', version: '1.0.0', mapSkill: 'cs-ui-ban-do-mua-hang-kho', leafCount: 4 },
-  { name: 'catersoft-nhap-lieu', version: '2.3.4', mapSkill: 'cs-ui-ban-do-thuc-don-du-tru', leafCount: 5 },
+  { name: 'catersoft', version: '1.0.0', mapSkill: 'cs-ui-ban-do-thuc-don-du-tru', leafCount: 5 },
 ];
 
 test('isJunkName catches Drive Icon\\r, macOS .DS_Store, and local files', () => {
@@ -58,16 +56,22 @@ test('injectMandatoryRuleNotice inserts dynamic callout for non-map skills only 
   assert.ok(MANDATORY_RULE_CALLOUT.includes('cs-ui-ban-do-thuc-don-du-tru/QUY-TAC-BAT-BUOC.md'));
 });
 
-test('buildManifests enforces AGY <= 3 prompts, Codex <= 30-char portal limits, and OpenAI extension block', () => {
+test('buildManifests enforces AGY <= 3 prompts, Codex <= 30-char portal limits, OpenAI extension block, and MCP server config pointers', () => {
   const meta = JSON.parse(
-    fs.readFileSync(path.join(REPO_ROOT, 'src', 'catersoft-nhap-lieu', 'plugin.meta.json'), 'utf8'),
+    fs.readFileSync(path.join(REPO_ROOT, 'src', 'catersoft', 'plugin.meta.json'), 'utf8'),
   );
   const { agyManifest, claudeManifest, codexManifest } = buildManifests(meta);
+  const mcpConfigs = buildMcpConfigs(meta);
 
   assert.equal(agyManifest.suggestedPrompts.length, 3);
   assert.equal('keywords' in agyManifest, false);
-  assert.equal(claudeManifest.name, 'catersoft-nhap-lieu');
+  assert.equal(claudeManifest.name, 'catersoft');
+  assert.equal(claudeManifest.mcpServers, './.claude-plugin/mcp.json');
   assert.equal(codexManifest.skills, './skills/');
+  assert.equal(codexManifest.mcpServers, './.codex-plugin/mcp.json');
+  assert.equal(mcpConfigs?.agyMcpConfig.mcpServers.catersoft.serverUrl, 'https://catersoft.app/mcp');
+  assert.equal(mcpConfigs?.standardMcpConfig.mcpServers.catersoft.type, 'http');
+  assert.equal(mcpConfigs?.standardMcpConfig.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
   assert.ok(codexManifest.interface.displayName.length <= 30);
   assert.ok(codexManifest.interface.shortDescription.length <= 30);
   assert.equal(codexManifest.interface.defaultPrompt.length, 3);
@@ -106,16 +110,20 @@ test('copyCleanTree dereferences symlinks and filters Icon\\r / .DS_Store', () =
   }
 });
 
-test('built outputs build all 4 plugins cleanly, pass OpenAI submission rules, and omit root plugin.json in Codex zip', () => {
+test('built outputs build strictly 1 plugin (catersoft@1.0.0) cleanly, emit remote MCP OAuth configs, pass OpenAI rules, and omit root plugin.json in Codex zip', () => {
   const result = buildAll({ rootDir: REPO_ROOT, quiet: true });
-  assert.equal(result.metas.length, 4);
+  assert.equal(result.metas.length, 1);
+  assert.equal(result.metas[0].name, 'catersoft');
 
   const claudeMp = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, '.claude-plugin', 'marketplace.json'), 'utf8'));
   const codexMp = JSON.parse(fs.readFileSync(path.join(REPO_ROOT, '.agents', 'plugins', 'marketplace.json'), 'utf8'));
-  assert.equal(claudeMp.plugins.length, 4);
-  assert.equal(codexMp.plugins.length, 4);
+  assert.equal(claudeMp.plugins.length, 1);
+  assert.equal(codexMp.plugins.length, 1);
 
   for (const spec of EXPECTED_PLUGINS) {
+    const repoPluginDir = path.join(REPO_ROOT, 'plugins', spec.name);
+    const distClaudeDir = path.join(REPO_ROOT, 'dist', 'claude', 'plugins', spec.name);
+    const distAgyDir = path.join(REPO_ROOT, 'dist', 'agy', spec.name);
     const codexDir = path.join(REPO_ROOT, 'dist', 'codex', spec.name);
     const codexManifest = JSON.parse(fs.readFileSync(path.join(codexDir, '.codex-plugin', 'plugin.json'), 'utf8'));
     const zipPath = path.join(REPO_ROOT, 'dist', 'codex', `${spec.name}-v${spec.version}.zip`);
@@ -125,6 +133,24 @@ test('built outputs build all 4 plugins cleanly, pass OpenAI submission rules, a
 
     assert.equal(entries.includes('plugin.json'), false, `${spec.name} Codex zip must not include root plugin.json`);
     assert.equal(entries.includes('.codex-plugin/plugin.json'), true);
+    assert.equal(entries.includes('.mcp.json'), true);
+    assert.equal(fs.existsSync(path.join(repoPluginDir, '.mcp.json')), false, 'plugins/catersoft must not contain root .mcp.json');
+    assert.equal(fs.existsSync(path.join(distAgyDir, '.mcp.json')), false, 'dist/agy/catersoft must not contain root .mcp.json');
+
+    const repoAgyMcp = JSON.parse(fs.readFileSync(path.join(repoPluginDir, 'mcp_config.json'), 'utf8'));
+    const repoClaudeMcp = JSON.parse(fs.readFileSync(path.join(repoPluginDir, '.claude-plugin', 'mcp.json'), 'utf8'));
+    const repoCodexMcp = JSON.parse(fs.readFileSync(path.join(repoPluginDir, '.codex-plugin', 'mcp.json'), 'utf8'));
+    const distClaudeMcp = JSON.parse(fs.readFileSync(path.join(distClaudeDir, '.mcp.json'), 'utf8'));
+    const distAgyMcp = JSON.parse(fs.readFileSync(path.join(distAgyDir, 'mcp_config.json'), 'utf8'));
+    const distCodexMcp = JSON.parse(fs.readFileSync(path.join(codexDir, '.mcp.json'), 'utf8'));
+
+    assert.equal(repoAgyMcp.mcpServers.catersoft.serverUrl, 'https://catersoft.app/mcp');
+    assert.equal(distAgyMcp.mcpServers.catersoft.serverUrl, 'https://catersoft.app/mcp');
+    assert.equal(repoClaudeMcp.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
+    assert.equal(repoCodexMcp.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
+    assert.equal(distClaudeMcp.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
+    assert.equal(distCodexMcp.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
+
     validateOpenAiSubmissionRules(codexDir, codexManifest, entries);
 
     let injectedLeafCount = 0;
@@ -139,7 +165,7 @@ test('built outputs build all 4 plugins cleanly, pass OpenAI submission rules, a
 });
 
 test('validateOpenAiSubmissionRules rejects oversized displayName, low contrast, and colliding root plugin.json', () => {
-  const codexDir = path.join(REPO_ROOT, 'dist', 'codex', 'catersoft-nhap-lieu');
+  const codexDir = path.join(REPO_ROOT, 'dist', 'codex', 'catersoft');
   const validManifest = JSON.parse(fs.readFileSync(path.join(codexDir, '.codex-plugin', 'plugin.json'), 'utf8'));
 
   const badManifest = structuredClone(validManifest);
@@ -152,7 +178,7 @@ test('validateOpenAiSubmissionRules rejects oversized displayName, low contrast,
   );
 });
 
-test('parseRepoSlug and runPublish --dry-run emit per-plugin release tags and 4 Codex zips', () => {
+test('parseRepoSlug and runPublish --dry-run emit single release tag catersoft--v1.0.0 and 1 Codex zip', () => {
   assert.equal(parseRepoSlug('https://github.com/catersoft-vn/catersoft-plugins.git'), 'catersoft-vn/catersoft-plugins');
   const plan = runPublish({
     rootDir: REPO_ROOT,
@@ -168,16 +194,6 @@ test('parseRepoSlug and runPublish --dry-run emit per-plugin release tags and 4 
     }),
   });
   assert.equal(plan.status, 'dry-run');
-  assert.deepEqual(plan.tagsToPush, [
-    'catersoft-doanh-thu-pnl--v1.0.0',
-    'catersoft-fifo-trading--v1.0.0',
-    'catersoft-mua-hang-kho--v1.0.0',
-    'catersoft-nhap-lieu--v2.3.4',
-  ]);
-  assert.deepEqual(plan.releaseAssets, [
-    'dist/codex/catersoft-doanh-thu-pnl-v1.0.0.zip',
-    'dist/codex/catersoft-fifo-trading-v1.0.0.zip',
-    'dist/codex/catersoft-mua-hang-kho-v1.0.0.zip',
-    'dist/codex/catersoft-nhap-lieu-v2.3.4.zip',
-  ]);
+  assert.deepEqual(plan.tagsToPush, ['catersoft--v1.0.0']);
+  assert.deepEqual(plan.releaseAssets, ['dist/codex/catersoft-v1.0.0.zip']);
 });

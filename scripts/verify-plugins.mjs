@@ -269,6 +269,27 @@ export function validateOpenAiSubmissionRules(pluginDir, codexManifest, zipEntri
     }
   }
 
+  if (codexManifest.mcpServers !== undefined) {
+    if (typeof codexManifest.mcpServers !== 'string' || !codexManifest.mcpServers.startsWith('./') || codexManifest.mcpServers.includes('..')) {
+      issues.push(`mcpServers must be a relative path starting with ./ (got ${String(codexManifest.mcpServers)})`);
+    } else {
+      const mcpAbs = path.join(pluginDir, codexManifest.mcpServers.slice(2));
+      if (!fs.existsSync(mcpAbs) || !fs.statSync(mcpAbs).isFile()) {
+        issues.push(`mcpServers target file missing: ${codexManifest.mcpServers}`);
+      } else {
+        try {
+          const mcpJson = JSON.parse(fs.readFileSync(mcpAbs, 'utf8'));
+          const servers = mcpJson?.mcpServers;
+          if (!servers || typeof servers !== 'object' || Object.keys(servers).length === 0) {
+            issues.push(`mcpServers config ${codexManifest.mcpServers} must define at least one server`);
+          }
+        } catch (err) {
+          issues.push(`mcpServers config ${codexManifest.mcpServers} invalid JSON: ${err.message}`);
+        }
+      }
+    }
+  }
+
   if (zipEntries.includes('plugin.json')) {
     issues.push('Conflicting root plugin.json must NOT appear in Codex zip alongside .codex-plugin/plugin.json');
   }
@@ -469,6 +490,7 @@ export function verifyAll({ rootDir, quiet = false } = {}) {
 
   // 2. Antigravity strict validations (repo plugin + dist/agy)
   for (const name of pluginDirs) {
+    const meta = JSON.parse(fs.readFileSync(path.join(rootDir, 'src', name, 'plugin.meta.json'), 'utf8'));
     for (const [label, target] of [
       [`repo-plugin:${name}`, `./plugins/${name}`],
       [`dist-agy:${name}`, `./dist/agy/${name}`],
@@ -481,10 +503,15 @@ export function verifyAll({ rootDir, quiet = false } = {}) {
       if (!Array.isArray(parsed.findings) || parsed.findings.length > 0) {
         throw new Error(`AGY strict validation findings for ${target}: ${out}`);
       }
+      const mcpServersCount = parsed.components?.mcpServers ?? 0;
+      if (typeof meta.mcpServerUrl === 'string' && meta.mcpServerUrl.trim() && mcpServersCount < 1) {
+        throw new Error(`AGY validation for ${target} expected >= 1 mcpServers (got ${mcpServersCount}): ${out}`);
+      }
       report.agy.push({
         label,
         skills: parsed.components?.skills ?? 0,
         rules: parsed.components?.rules ?? 0,
+        mcpServers: mcpServersCount,
         findings: parsed.findings.length,
       });
     }
@@ -502,7 +529,11 @@ export function verifyAll({ rootDir, quiet = false } = {}) {
       throw new Error(`Missing Codex zip archive: ${zipPath}`);
     }
     const entries = scanZipContents(zipPath);
-    for (const required of ['.codex-plugin/plugin.json', 'assets/logo.svg', 'README.md']) {
+    const requiredEntries = ['.codex-plugin/plugin.json', 'assets/logo.svg', 'README.md'];
+    if (typeof meta.mcpServerUrl === 'string' && meta.mcpServerUrl.trim()) {
+      requiredEntries.push('.mcp.json');
+    }
+    for (const required of requiredEntries) {
       if (!entries.includes(required)) {
         throw new Error(`Archive ${zipPath} missing required entry: ${required}`);
       }

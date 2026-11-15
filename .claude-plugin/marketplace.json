@@ -1,87 +1,19 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "catersoft-plugins",
-  "description": "Marketplace chính thức của CaterSoft cung cấp các bộ kỹ năng AI thao tác phần mềm qua giao diện Web (UI-only).",
+  "description": "Marketplace chính thức của CaterSoft cung cấp plugin CaterSoft duy nhất kèm kỹ năng nhập liệu Giai đoạn 1 và máy chủ MCP OAuth 2.1 theo tài khoản.",
   "owner": {
     "name": "CaterSoft",
     "url": "https://guide.catersoft.vn"
   },
   "plugins": [
     {
-      "name": "catersoft-doanh-thu-pnl",
-      "description": "Bộ kỹ năng hướng dẫn Agent AI của khách hàng thao tác trên giao diện Web CaterSoft cho chuỗi Tài chính, Thu chi & Báo cáo Lãi/Lỗ (P&L): tài khoản ngân hàng, phương thức thanh toán, Đề nghị thanh toán (ĐNTT), Sổ quỹ thu chi, Công nợ phải thu/phải trả & tuổi nợ, Phần ăn thực tế & giá khách hàng, Cấu hình & Báo cáo KQKD / P&L (100% qua UI).",
+      "name": "catersoft",
+      "description": "Plugin chính thức duy nhất của CaterSoft kết hợp bộ kỹ năng nhập liệu cơ bản (Nguyên liệu & ĐVT, Món ăn & Định lượng, Thiết lập thực đơn, Thực đơn tuần & Dự trù ngày, Phần ăn thực tế) với máy chủ CaterSoft MCP đăng nhập OAuth 2.1 theo từng tài khoản (tra cứu, tạo mới và cập nhật danh mục nền đúng quyền màn hình; không chứa công cụ xóa dữ liệu).",
       "version": "1.0.0",
       "author": {
         "name": "CaterSoft",
-        "url": "https://guide.catersoft.vn"
-      },
-      "homepage": "https://guide.catersoft.vn",
-      "repository": "https://github.com/catersoft-vn/catersoft-plugins",
-      "license": "MIT",
-      "keywords": [
-        "catersoft",
-        "thu-chi",
-        "de-nghi-thanh-toan",
-        "cong-no",
-        "doanh-thu-suat-an",
-        "bao-cao-pnl",
-        "ke-toan"
-      ],
-      "category": "productivity",
-      "source": "./plugins/catersoft-doanh-thu-pnl"
-    },
-    {
-      "name": "catersoft-fifo-trading",
-      "description": "Bộ kỹ năng hướng dẫn Agent AI của khách hàng thao tác trên giao diện Web CaterSoft cho chuỗi Kho FIFO & Thương mại: ánh xạ đối tác/mặt hàng và nhập PO thành SO, nhà sản xuất, đề xuất/đơn mua FIFO nhận theo lô có NSX/HSD, bán hàng xuất lô FIFO, truy vết mã lô ngắn, điều chuyển kho và kiểm kê theo lô (100% qua UI).",
-      "version": "1.0.0",
-      "author": {
-        "name": "CaterSoft",
-        "url": "https://guide.catersoft.vn"
-      },
-      "homepage": "https://guide.catersoft.vn/mua-hang-kho/kho-fifo-mua-ban-kiem-ke",
-      "repository": "https://github.com/catersoft-vn/catersoft-plugins",
-      "license": "MIT",
-      "keywords": [
-        "catersoft",
-        "fifo",
-        "trading",
-        "quan-ly-lo",
-        "han-su-dung",
-        "sales-order",
-        "po-to-so"
-      ],
-      "category": "productivity",
-      "source": "./plugins/catersoft-fifo-trading"
-    },
-    {
-      "name": "catersoft-mua-hang-kho",
-      "description": "Bộ kỹ năng hướng dẫn Agent AI của khách hàng thao tác trên giao diện Web CaterSoft cho chuỗi Mua hàng, Nhà cung cấp & Kho: kho hàng, nhà cung cấp, quy tắc khu vực, bảng giá tháng, đề xuất mua hàng (PR), tổng hợp duyệt đề xuất, đơn đặt hàng (PO), nhận hàng vào kho, phiếu xuất, chuyển kho và kiểm kê tồn kho (100% qua UI).",
-      "version": "1.0.0",
-      "author": {
-        "name": "CaterSoft",
-        "url": "https://guide.catersoft.vn"
-      },
-      "homepage": "https://guide.catersoft.vn/mua-hang-kho",
-      "repository": "https://github.com/catersoft-vn/catersoft-plugins",
-      "license": "MIT",
-      "keywords": [
-        "catersoft",
-        "mua-hang",
-        "nha-cung-cap",
-        "de-xuat-mua",
-        "don-mua-po",
-        "quan-ly-kho",
-        "kiem-ke"
-      ],
-      "category": "productivity",
-      "source": "./plugins/catersoft-mua-hang-kho"
-    },
-    {
-      "name": "catersoft-nhap-lieu",
-      "description": "Bộ kỹ năng hướng dẫn Agent AI của khách hàng thao tác trên giao diện Web CaterSoft cho chuỗi Thực đơn & Dự trù: nguyên liệu, đơn vị quy đổi, món ăn, ngân hàng thực đơn, định lượng, thiết lập thực đơn dự trù, thực đơn tuần, dự trù ngày, số lượng đặt hàng và phần ăn thực tế (100% qua UI).",
-      "version": "2.3.4",
-      "author": {
-        "name": "CaterSoft",
+        "email": "support@catersoft.vn",
         "url": "https://guide.catersoft.vn"
       },
       "homepage": "https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft",
@@ -89,15 +21,16 @@
       "license": "MIT",
       "keywords": [
         "catersoft",
+        "mcp",
+        "oauth",
         "thuc-don",
         "du-tru",
         "dinh-luong",
-        "ngan-hang-thuc-don",
         "nguyen-lieu",
         "phan-an"
       ],
       "category": "productivity",
-      "source": "./plugins/catersoft-nhap-lieu"
+      "source": "./plugins/catersoft"
     }
   ]
 }

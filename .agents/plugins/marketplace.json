@@ -5,46 +5,10 @@
   },
   "plugins": [
     {
-      "name": "catersoft-doanh-thu-pnl",
+      "name": "catersoft",
       "source": {
         "source": "local",
-        "path": "./plugins/catersoft-doanh-thu-pnl"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Finance"
-    },
-    {
-      "name": "catersoft-fifo-trading",
-      "source": {
-        "source": "local",
-        "path": "./plugins/catersoft-fifo-trading"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Business & Operations"
-    },
-    {
-      "name": "catersoft-mua-hang-kho",
-      "source": {
-        "source": "local",
-        "path": "./plugins/catersoft-mua-hang-kho"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Business & Operations"
-    },
-    {
-      "name": "catersoft-nhap-lieu",
-      "source": {
-        "source": "local",
-        "path": "./plugins/catersoft-nhap-lieu"
+        "path": "./plugins/catersoft"
       },
       "policy": {
         "installation": "AVAILABLE",

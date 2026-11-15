@@ -255,7 +255,8 @@ export function runPublish({
           '--title',
           `${meta.name} v${meta.version}`,
           '--notes',
-          `Phát hành plugin ${meta.name} v${meta.version} (100% thao tác qua giao diện Web CaterSoft) kèm gói .zip sạch cho OpenAI Codex/ChatGPT.`,
+          meta.releaseNotes ||
+            `Phát hành plugin ${meta.name} v${meta.version} kèm gói .zip sạch cho OpenAI Codex/ChatGPT.`,
         ],
         { cwd: rootDir, encoding: 'utf8' },
       );
