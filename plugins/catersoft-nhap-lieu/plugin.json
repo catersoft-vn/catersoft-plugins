@@ -1,0 +1,18 @@
+{
+  "name": "catersoft-nhap-lieu",
+  "displayName": "CaterSoft — Thực đơn & Dự trù cho Khách hàng",
+  "version": "2.3.3",
+  "description": "Bộ kỹ năng hướng dẫn Agent AI của khách hàng thao tác trên giao diện Web CaterSoft cho chuỗi Thực đơn & Dự trù: nguyên liệu, đơn vị quy đổi, món ăn, ngân hàng thực đơn, định lượng, thiết lập thực đơn dự trù, thực đơn tuần, dự trù ngày, số lượng đặt hàng và phần ăn thực tế (100% qua UI).",
+  "author": {
+    "name": "CaterSoft",
+    "url": "https://guide.catersoft.vn"
+  },
+  "homepage": "https://guide.catersoft.vn",
+  "repository": "https://github.com/catersoft-vn/catersoft-plugins",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Tôi mở bếp mới, cần nhập gì theo thứ tự nào để lên được thực đơn và dự trù?",
+    "Khai nguyên liệu Thịt heo tính kho theo Kg, định lượng theo Gam và định lượng món Thịt kho",
+    "Vì sao dự trù ngày mai ra 0 nguyên liệu cho món Cá kho?"
+  ]
+}

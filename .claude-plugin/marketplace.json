@@ -1,0 +1,34 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "catersoft-plugins",
+  "description": "Marketplace chính thức của CaterSoft cung cấp các bộ kỹ năng AI thao tác phần mềm qua giao diện Web (UI-only).",
+  "owner": {
+    "name": "CaterSoft",
+    "url": "https://guide.catersoft.vn"
+  },
+  "plugins": [
+    {
+      "name": "catersoft-nhap-lieu",
+      "description": "Bộ kỹ năng hướng dẫn Agent AI của khách hàng thao tác trên giao diện Web CaterSoft cho chuỗi Thực đơn & Dự trù: nguyên liệu, đơn vị quy đổi, món ăn, ngân hàng thực đơn, định lượng, thiết lập thực đơn dự trù, thực đơn tuần, dự trù ngày, số lượng đặt hàng và phần ăn thực tế (100% qua UI).",
+      "version": "2.3.3",
+      "author": {
+        "name": "CaterSoft",
+        "url": "https://guide.catersoft.vn"
+      },
+      "homepage": "https://guide.catersoft.vn",
+      "repository": "https://github.com/catersoft-vn/catersoft-plugins",
+      "license": "MIT",
+      "keywords": [
+        "catersoft",
+        "thuc-don",
+        "du-tru",
+        "dinh-luong",
+        "ngan-hang-thuc-don",
+        "nguyen-lieu",
+        "phan-an"
+      ],
+      "category": "productivity",
+      "source": "./plugins/catersoft-nhap-lieu"
+    }
+  ]
+}

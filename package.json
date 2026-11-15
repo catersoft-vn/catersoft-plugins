@@ -1,0 +1,17 @@
+{
+  "name": "catersoft-plugins",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "CaterSoft official AI plugins repository for Claude Code, Antigravity (AGY), and OpenAI Codex",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/catersoft-vn/catersoft-plugins.git"
+  },
+  "scripts": {
+    "build": "node scripts/build-plugins.mjs",
+    "verify": "node scripts/verify-plugins.mjs",
+    "test": "node --test scripts/build-plugins.test.mjs"
+  }
+}

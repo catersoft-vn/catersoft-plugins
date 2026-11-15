@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" fill="none">
+  <!-- 10% transparent margin around a 204x204 rounded badge -->
+  <rect x="26" y="26" width="204" height="204" rx="44" fill="#0F172A" stroke="#38BDF8" stroke-width="6"/>
+  <!-- Top browser header bar representing Web UI -->
+  <path d="M26 70C26 45.6995 45.6995 26 70 26H186C210.301 26 230 45.6995 230 70V78H26V70Z" fill="#1E293B"/>
+  <circle cx="54" cy="52" r="7" fill="#F87171"/>
+  <circle cx="76" cy="52" r="7" fill="#FBBF24"/>
+  <circle cx="98" cy="52" r="7" fill="#34D399"/>
+  <!-- Stylized CS + Grid cells representing UI Data Entry -->
+  <rect x="52" y="102" width="68" height="36" rx="8" fill="#0284C7"/>
+  <text x="86" y="127" text-anchor="middle" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-weight="800" font-size="22">CS</text>
+  <rect x="132" y="102" width="72" height="36" rx="8" fill="#1E293B" stroke="#38BDF8" stroke-width="3"/>
+  <path d="M148 120H188" stroke="#38BDF8" stroke-width="5" stroke-linecap="round"/>
+  <rect x="52" y="152" width="152" height="48" rx="10" fill="#1E293B" stroke="#34D399" stroke-width="3"/>
+  <path d="M74 176L88 190L116 162" stroke="#34D399" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M134 176H184" stroke="#E2E8F0" stroke-width="5" stroke-linecap="round"/>
+</svg>
