@@ -13,6 +13,7 @@ import {
   isJunkName,
   stripFrontmatter,
 } from './build-plugins.mjs';
+import { parseRepoSlug, runPublish } from './publish-github.mjs';
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
@@ -107,4 +108,46 @@ test('built outputs inject QUY-TAC-BAT-BUOC.md notice in all 5 leaf skills and p
   });
   assert.equal(zipList.includes('.DS_Store'), false);
   assert.equal(zipList.includes('Icon'), false);
+});
+
+test('parseRepoSlug and runPublish --dry-run produce valid release plan without fallback', () => {
+  assert.equal(parseRepoSlug('https://github.com/catersoft-vn/catersoft-plugins.git'), 'catersoft-vn/catersoft-plugins');
+  assert.equal(parseRepoSlug('git@github.com:catersoft-vn/catersoft-plugins.git'), 'catersoft-vn/catersoft-plugins');
+
+  const plan = runPublish({
+    rootDir: REPO_ROOT,
+    dryRun: true,
+    skipBuildVerify: true,
+    quiet: true,
+    probeFn: (repoSlug) => ({
+      org: repoSlug.split('/')[0],
+      repoSlug,
+      orgExists: false,
+      orgType: null,
+      repoExists: false,
+    }),
+  });
+  assert.equal(plan.status, 'dry-run');
+  assert.equal(plan.repoSlug, 'catersoft-vn/catersoft-plugins');
+  assert.deepEqual(plan.tagsToPush, ['v2.3.3', 'catersoft-nhap-lieu--v2.3.3']);
+  assert.deepEqual(plan.releaseAssets, ['dist/codex/catersoft-nhap-lieu-v2.3.3.zip']);
+  assert.deepEqual(plan.remoteVerifyTargets, ['claude', 'agy', 'codex']);
+
+  assert.throws(
+    () =>
+      runPublish({
+        rootDir: REPO_ROOT,
+        dryRun: false,
+        skipBuildVerify: true,
+        quiet: true,
+        probeFn: (repoSlug) => ({
+          org: repoSlug.split('/')[0],
+          repoSlug,
+          orgExists: false,
+          orgType: null,
+          repoExists: false,
+        }),
+      }),
+    (err) => err.exitCode === 2 && err.message.includes('catersoft-vn'),
+  );
 });

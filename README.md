@@ -2,6 +2,8 @@
 
 Kho mã nguồn công khai phân phối các plugin hỗ trợ khách hàng CaterSoft trên cả **3 hệ sinh thái AI Marketplace**: **Claude Code**, **Google Antigravity (AGY)** và **OpenAI Codex / ChatGPT**.
 
+Hướng dẫn sử dụng chi tiết bằng tiếng Việt cho khách hàng: [Cài đặt trợ lý AI nhập liệu CaterSoft](https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft).
+
 Mọi plugin trong kho tuân thủ tuyệt đối nguyên tắc **100% thao tác qua giao diện Web (UI-only)** — không dùng API ngầm, không chứa thông tin hay dữ liệu của bất kỳ khách hàng nào.
 
 ---
@@ -42,7 +44,9 @@ catersoft-plugins/
 ### Lệnh phát triển & kiểm chứng cục bộ
 
 ```bash
-npm run build   # Sinh cây Marketplace (plugins/, .claude-plugin/, .agents/) và gói nộp chợ (dist/)
-npm test        # Chạy bộ kiểm thử đơn vị (node --test)
-npm run verify  # Quét bảo mật + chạy validate --strict qua claude, agy và cài thử cô lập trên codex
+npm run build           # Sinh cây Marketplace (plugins/, .claude-plugin/, .agents/) và gói nộp chợ (dist/)
+npm test                # Chạy bộ kiểm thử đơn vị (node --test)
+npm run verify          # Quét bảo mật + chạy validate --strict qua claude, agy và cài thử cô lập trên codex
+npm run publish:dry-run # Kiểm tra trạng thái GitHub org/repo và kế hoạch tag/release
+npm run publish:github  # Đẩy repo Public lên GitHub, gắn tag SemVer, tạo Release kèm .zip và test cài từ xa
 ```

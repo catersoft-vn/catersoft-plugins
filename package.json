@@ -12,6 +12,8 @@
   "scripts": {
     "build": "node scripts/build-plugins.mjs",
     "verify": "node scripts/verify-plugins.mjs",
-    "test": "node --test scripts/build-plugins.test.mjs"
+    "test": "node --test scripts/build-plugins.test.mjs",
+    "publish:dry-run": "node scripts/publish-github.mjs --dry-run",
+    "publish:github": "node scripts/publish-github.mjs"
   }
 }

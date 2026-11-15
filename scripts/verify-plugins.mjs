@@ -40,6 +40,28 @@ function resolveCli(candidates, fallbackCmd) {
   }
 }
 
+/** Resolve local CLI binaries for Claude Code, Antigravity (AGY), and OpenAI Codex. */
+export function resolveDefaultClis() {
+  return {
+    claudeCli: resolveCli(
+      [path.join(os.homedir(), '.local/bin/claude'), '/opt/homebrew/bin/claude', '/usr/local/bin/claude'],
+      'claude',
+    ),
+    agyCli: resolveCli(
+      ['/Applications/Gemini.app/Contents/Helpers/agy', '/opt/homebrew/bin/agy', '/usr/local/bin/agy'],
+      'agy',
+    ),
+    codexCli: resolveCli(
+      [
+        '/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex',
+        '/opt/homebrew/bin/codex',
+        '/usr/local/bin/codex',
+      ],
+      'codex',
+    ),
+  };
+}
+
 function scanTreeForJunkAndSecrets(rootDir, relativeRoots, sensitivePatterns) {
   const errors = [];
   const checkedFiles = [];
@@ -122,6 +144,7 @@ export function verifyAll({ rootDir, quiet = false } = {}) {
       'plugins',
       'scripts/build-plugins.mjs',
       'scripts/build-plugins.test.mjs',
+      'scripts/publish-github.mjs',
       'README.md',
       'package.json',
       '.claude-plugin',
@@ -142,22 +165,7 @@ export function verifyAll({ rootDir, quiet = false } = {}) {
     .map((entry) => entry.name)
     .sort();
 
-  const claudeCli = resolveCli(
-    [path.join(os.homedir(), '.local/bin/claude'), '/opt/homebrew/bin/claude', '/usr/local/bin/claude'],
-    'claude',
-  );
-  const agyCli = resolveCli(
-    ['/Applications/Gemini.app/Contents/Helpers/agy', '/opt/homebrew/bin/agy', '/usr/local/bin/agy'],
-    'agy',
-  );
-  const codexCli = resolveCli(
-    [
-      '/Applications/ChatGPT.app/Contents/Resources/codex-cli/bin/codex',
-      '/opt/homebrew/bin/codex',
-      '/usr/local/bin/codex',
-    ],
-    'codex',
-  );
+  const { claudeCli, agyCli, codexCli } = resolveDefaultClis();
 
   const report = {
     status: 'ok',
