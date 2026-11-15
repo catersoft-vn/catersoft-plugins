@@ -1,52 +1,57 @@
-# CaterSoft Official AI Plugins
+# CaterSoft Plugins — Bộ Kỹ năng Trợ lý AI Chính thức (100% UI-Only)
 
-Kho mã nguồn công khai phân phối các plugin hỗ trợ khách hàng CaterSoft trên cả **3 hệ sinh thái AI Marketplace**: **Claude Code**, **Google Antigravity (AGY)** và **OpenAI Codex / ChatGPT**.
+Kho phân phối chính thức các bộ kỹ năng (**Plugins**) của **CaterSoft** dành cho trợ lý AI của khách hàng trên cả 3 nền tảng: **Claude Code**, **Google Antigravity (AGY)** và **OpenAI Codex**.
 
-Hướng dẫn sử dụng chi tiết bằng tiếng Việt cho khách hàng: [Cài đặt trợ lý AI nhập liệu CaterSoft](https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft).
+> **Nguyên tắc bắt buộc (100% UI-Only):** Toàn bộ kỹ năng hướng dẫn AI thao tác **100% trực tiếp trên giao diện trình duyệt CaterSoft** như một nhân sự nghiệp vụ thật (Click, Chọn, Gõ, Lưu). Không gọi API ngầm, không can thiệp `localStorage`/IndexedDB, không tự chốt xóa cứng hoặc duyệt chi/chốt tồn khi chưa hỏi người dùng.
 
-Mọi plugin trong kho tuân thủ tuyệt đối nguyên tắc **100% thao tác qua giao diện Web (UI-only)** — không dùng API ngầm, không chứa thông tin hay dữ liệu của bất kỳ khách hàng nào.
+## Danh mục 4 Plugin chính thức (21 kỹ năng)
 
----
-
-## Cài đặt nhanh từ Marketplace GitHub (`catersoft-vn/catersoft-plugins`)
-
-| STT | Tên ngắn | Nền tảng | Lệnh thêm nguồn & cài đặt |
-| :-: | :--- | :--- | :--- |
-| 1 | Claude Code | Anthropic Claude Code | `claude plugin marketplace add catersoft-vn/catersoft-plugins`<br>`claude plugin install catersoft-nhap-lieu@catersoft-plugins` |
-| 2 | Antigravity AGY | Google Antigravity | `agy plugin install https://github.com/catersoft-vn/catersoft-plugins/tree/main/plugins/catersoft-nhap-lieu` *(hoặc trỏ vào thư mục `plugins/catersoft-nhap-lieu` sau khi clone)* |
-| 3 | OpenAI Codex | OpenAI Codex CLI / App | `codex plugin marketplace add catersoft-vn/catersoft-plugins`<br>`codex plugin add catersoft-nhap-lieu@catersoft-plugins` |
+| STT | Tên ngắn | Mã Plugin | Phiên bản | Số kỹ năng | Bộ phận sử dụng |
+| :-: | :--- | :--- | :-: | :-: | :--- |
+| 1 | Thực đơn & Dự trù | `catersoft-nhap-lieu` | `2.3.4` | 6 | Dinh dưỡng, Quản lý bếp, Soạn thực đơn tuần & Dự trù ngày |
+| 2 | Mua hàng & Kho | `catersoft-mua-hang-kho` | `1.0.0` | 5 | Thu mua, Thủ kho bếp/kho tổng, Kiểm kê & Giá NCC theo vùng |
+| 3 | Kho FIFO & Thương mại | `catersoft-fifo-trading` | `1.0.0` | 5 | Kho lô FIFO/HSD, Đơn vị thương mại nhập PO → SO, Kiểm kê lô |
+| 4 | Thu chi & P&L | `catersoft-doanh-thu-pnl` | `1.0.0` | 5 | Kế toán thanh toán (ĐNTT), Sổ quỹ, Công nợ, Giá KH & Báo cáo P&L |
 
 ---
 
-## Danh mục Plugin hiện có
+## Cài đặt nhanh theo từng công cụ AI
 
-| STT | Tên ngắn | Mã gói | Phiên bản | Mô tả |
-| :-: | :--- | :--- | :---: | :--- |
-| 1 | Thực đơn & Dự trù | `catersoft-nhap-lieu` | `2.3.3` | Hướng dẫn Agent AI thao tác trọn chuỗi Nguyên liệu, ĐVT, Món ăn, Định lượng, Thiết lập thực đơn dự trù, Thực đơn tuần, Dự trù ngày và Phần ăn thực tế qua Web UI CaterSoft. |
-
----
-
-## Kiến trúc đóng gói 1 nguồn → 3 đích
-
-```text
-catersoft-plugins/
-├── src/<plugin>/                 # Nguồn soạn duy nhất (plugin.meta.json, skills/, rules/, assets/)
-├── scripts/
-│   ├── build-plugins.mjs         # Sinh đồng bộ cây Marketplace + dist/{claude,agy,codex} + file .zip sạch
-│   ├── verify-plugins.mjs        # Quét rác/bảo mật + chạy kiểm tra qua 3 CLI (claude, agy, codex)
-│   └── build-plugins.test.mjs    # Kiểm thử đơn vị bằng node --test
-├── .claude-plugin/               # Danh mục Marketplace chuẩn Claude Code
-├── .agents/plugins/              # Danh mục Marketplace chuẩn OpenAI Codex
-├── plugins/<plugin>/             # Gói tích hợp sạch sẵn sàng cài trực tiếp từ GitHub
-└── dist/                         # Các gói tách riêng phục vụ nộp lên 3 cổng Marketplace chính thức (bị gitignore)
-```
-
-### Lệnh phát triển & kiểm chứng cục bộ
-
+### 1. Claude Code
 ```bash
-npm run build           # Sinh cây Marketplace (plugins/, .claude-plugin/, .agents/) và gói nộp chợ (dist/)
-npm test                # Chạy bộ kiểm thử đơn vị (node --test)
-npm run verify          # Quét bảo mật + chạy validate --strict qua claude, agy và cài thử cô lập trên codex
-npm run publish:dry-run # Kiểm tra trạng thái GitHub org/repo và kế hoạch tag/release
-npm run publish:github  # Đẩy repo Public lên GitHub, gắn tag SemVer, tạo Release kèm .zip và test cài từ xa
+/plugin marketplace add catersoft-vn/catersoft-plugins
+/plugin install catersoft-nhap-lieu@catersoft-plugins
+/plugin install catersoft-mua-hang-kho@catersoft-plugins
+/plugin install catersoft-fifo-trading@catersoft-plugins
+/plugin install catersoft-doanh-thu-pnl@catersoft-plugins
 ```
+
+### 2. Google Antigravity (AGY)
+Cài từng plugin cần dùng trực tiếp theo đường dẫn nhánh thư mục trên GitHub:
+```bash
+agy plugin install https://github.com/catersoft-vn/catersoft-plugins/tree/main/plugins/catersoft-nhap-lieu
+agy plugin install https://github.com/catersoft-vn/catersoft-plugins/tree/main/plugins/catersoft-mua-hang-kho
+agy plugin install https://github.com/catersoft-vn/catersoft-plugins/tree/main/plugins/catersoft-fifo-trading
+agy plugin install https://github.com/catersoft-vn/catersoft-plugins/tree/main/plugins/catersoft-doanh-thu-pnl
+```
+
+### 3. OpenAI Codex (CLI / Desktop App)
+```bash
+codex plugin marketplace add catersoft-vn/catersoft-plugins
+```
+Sau đó mở lệnh `/plugins` trong Codex CLI hoặc giao diện Codex Desktop và bật plugin cần dùng (`catersoft-nhap-lieu`, `catersoft-mua-hang-kho`, `catersoft-fifo-trading`, `catersoft-doanh-thu-pnl`).
+
+---
+
+## Kiến trúc 1 Nguồn → 3 Đích & Kiểm thử cục bộ
+
+- Nguồn gốc duy nhất nằm tại `src/<ten-plugin>/` (`plugin.meta.json`, `assets/logo.svg`, `rules/AGENTS.md`, `skills/*/SKILL.md`).
+- Các lệnh kiểm tra và xuất bản:
+  - `npm run build`: đồng bộ ra `plugins/`, `.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json` và `dist/{claude,agy,codex}/` kèm file `.zip` sạch chuẩn OpenAI Portal.
+  - `npm test`: chạy bộ unit test Node (`node --test`).
+  - `npm run verify`: quét vệ sinh/bảo mật, kiểm tra `validateOpenAiSubmissionRules` và chạy kiểm thử cài đặt thực tế trên cả 3 CLI (`claude --strict`, `agy --strict --json`, `codex plugin marketplace/add`).
+
+## Tài liệu hướng dẫn khách hàng
+
+- Cổng hướng dẫn cài đặt & sử dụng: <https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft>
+- Bộ hướng dẫn nghiệp vụ CaterSoft: <https://guide.catersoft.vn>

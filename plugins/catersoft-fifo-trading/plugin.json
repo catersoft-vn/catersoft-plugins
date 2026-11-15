@@ -1,0 +1,18 @@
+{
+  "name": "catersoft-fifo-trading",
+  "displayName": "CaterSoft — Kho FIFO & Thương mại",
+  "version": "1.0.0",
+  "description": "Bộ kỹ năng hướng dẫn Agent AI của khách hàng thao tác trên giao diện Web CaterSoft cho chuỗi Kho FIFO & Thương mại: ánh xạ đối tác/mặt hàng và nhập PO thành SO, nhà sản xuất, đề xuất/đơn mua FIFO nhận theo lô có NSX/HSD, bán hàng xuất lô FIFO, truy vết mã lô ngắn, điều chuyển kho và kiểm kê theo lô (100% qua UI).",
+  "author": {
+    "name": "CaterSoft",
+    "url": "https://guide.catersoft.vn"
+  },
+  "homepage": "https://guide.catersoft.vn/mua-hang-kho/kho-fifo-mua-ban-kiem-ke",
+  "repository": "https://github.com/catersoft-vn/catersoft-plugins",
+  "logo": "assets/logo.svg",
+  "suggestedPrompts": [
+    "Ánh xạ đối tác, mặt hàng thương mại và nhập đơn PO người mua thành SO bán hàng trên CaterSoft",
+    "Tạo Đơn mua FIFO, nhận lô có NSX/HSD và tra cứu lịch sử tiêu thụ theo mã lô ngắn",
+    "Xuất bán FIFO theo lô, điều chuyển kho FIFO và kiểm kê chốt số dư từng lô"
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "name": "catersoft-fifo-trading",
+  "displayName": "CaterSoft — Kho FIFO & Thương mại",
+  "codexDisplayName": "CaterSoft Kho FIFO & Trading",
+  "shortDescription": "Hướng dẫn thao tác Kho FIFO theo lô, Hạn sử dụng, PO->SO & Kiểm kê thương mại qua Web UI",
+  "codexShortDescription": "Kho FIFO & thương mại Web UI",
+  "version": "1.0.0",
+  "mapSkill": "cs-ui-ban-do-fifo-trading",
+  "description": "Bộ kỹ năng hướng dẫn Agent AI của khách hàng thao tác trên giao diện Web CaterSoft cho chuỗi Kho FIFO & Thương mại: ánh xạ đối tác/mặt hàng và nhập PO thành SO, nhà sản xuất, đề xuất/đơn mua FIFO nhận theo lô có NSX/HSD, bán hàng xuất lô FIFO, truy vết mã lô ngắn, điều chuyển kho và kiểm kê theo lô (100% qua UI).",
+  "author": {
+    "name": "CaterSoft",
+    "url": "https://guide.catersoft.vn"
+  },
+  "homepage": "https://guide.catersoft.vn/mua-hang-kho/kho-fifo-mua-ban-kiem-ke",
+  "supportURL": "https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft",
+  "repository": "https://github.com/catersoft-vn/catersoft-plugins",
+  "license": "MIT",
+  "logo": "assets/logo.svg",
+  "brandColor": "#4F46E5",
+  "brandColorDark": "#818CF8",
+  "claudeCategory": "productivity",
+  "codexCategory": "Business & Operations",
+  "releaseNotes": "Phát hành v1.0.0: trọn bộ 5 kỹ năng thao tác 100% Web UI cho luồng Kho FIFO theo lô, PO->SO thương mại, Bảng giá bán, Bảng kê giao nhận & Kiểm kê lô.",
+  "keywords": [
+    "catersoft",
+    "fifo",
+    "trading",
+    "quan-ly-lo",
+    "han-su-dung",
+    "sales-order",
+    "po-to-so"
+  ],
+  "agySuggestedPrompts": [
+    "Ánh xạ đối tác, mặt hàng thương mại và nhập đơn PO người mua thành SO bán hàng trên CaterSoft",
+    "Tạo Đơn mua FIFO, nhận lô có NSX/HSD và tra cứu lịch sử tiêu thụ theo mã lô ngắn",
+    "Xuất bán FIFO theo lô, điều chuyển kho FIFO và kiểm kê chốt số dư từng lô"
+  ],
+  "codexDefaultPrompts": [
+    "Ánh xạ đối tác, mặt hàng thương mại và nhập đơn PO người mua thành SO bán hàng trên CaterSoft",
+    "Tạo Đơn mua FIFO, nhận lô có NSX/HSD và tra cứu lịch sử tiêu thụ theo mã lô ngắn",
+    "Xuất bán FIFO theo lô, điều chuyển kho FIFO và kiểm kê chốt số dư từng lô"
+  ]
+}

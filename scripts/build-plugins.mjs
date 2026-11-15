@@ -5,8 +5,11 @@ import { fileURLToPath } from 'node:url';
 
 const JUNK_EXACT = new Set(['.DS_Store', 'Thumbs.db', '__MACOSX']);
 
-export const MANDATORY_RULE_CALLOUT =
-  '> **Quy tắc bắt buộc (100% UI-Only & 7 Quy tắc Vàng DOM):** Trên Claude Code và Codex, luôn đọc thêm file `../cs-ui-ban-do-thuc-don-du-tru/QUY-TAC-BAT-BUOC.md` trước khi thao tác trình duyệt (Antigravity nạp sẵn qua `rules/AGENTS.md`).';
+export function buildMandatoryRuleCallout(mapSkill = 'cs-ui-ban-do-thuc-don-du-tru') {
+  return `> **Quy tắc bắt buộc (100% UI-Only & 7 Quy tắc Vàng DOM):** Trên Claude Code và Codex, luôn đọc thêm file \`../${mapSkill}/QUY-TAC-BAT-BUOC.md\` trước khi thao tác trình duyệt (Antigravity nạp sẵn qua \`rules/AGENTS.md\`).`;
+}
+
+export const MANDATORY_RULE_CALLOUT = buildMandatoryRuleCallout('cs-ui-ban-do-thuc-don-du-tru');
 
 /** Return true when a filename is Drive/OS sync junk or private local artifact. */
 export function isJunkName(name) {
@@ -29,18 +32,23 @@ export function stripFrontmatter(markdown) {
 }
 
 /** Insert the cross-platform UI-only rule callout below the H1 heading if missing. */
-export function injectMandatoryRuleNotice(markdown, skillDirName) {
+export function injectMandatoryRuleNotice(
+  markdown,
+  skillDirName,
+  mapSkill = 'cs-ui-ban-do-thuc-don-du-tru',
+) {
   const normalized = markdown.replace(/\r\n/g, '\n');
-  if (skillDirName === 'cs-ui-ban-do-thuc-don-du-tru') return normalized;
+  if (skillDirName === mapSkill) return normalized;
   if (normalized.includes('QUY-TAC-BAT-BUOC.md')) return normalized;
 
+  const callout = buildMandatoryRuleCallout(mapSkill);
   const lines = normalized.split('\n');
   const h1Index = lines.findIndex((line) => line.startsWith('# '));
   if (h1Index === -1) {
-    return `${MANDATORY_RULE_CALLOUT}\n\n${normalized}`;
+    return `${callout}\n\n${normalized}`;
   }
 
-  lines.splice(h1Index + 1, 0, '', MANDATORY_RULE_CALLOUT);
+  lines.splice(h1Index + 1, 0, '', callout);
   return lines.join('\n');
 }
 
@@ -55,7 +63,11 @@ function removeIfExists(targetPath) {
 
 /** Copy clean plugin assets/rules/skills (dereferencing symlinks and stripping junk). */
 export function copyCleanTree(srcDir, dstDir, options = {}) {
-  const { stripRulesFrontmatter = true, injectRuleNoticeInSkills = true } = options;
+  const {
+    stripRulesFrontmatter = true,
+    injectRuleNoticeInSkills = true,
+    mapSkill = 'cs-ui-ban-do-thuc-don-du-tru',
+  } = options;
   if (!fs.existsSync(srcDir)) return;
   fs.mkdirSync(dstDir, { recursive: true });
 
@@ -83,7 +95,7 @@ export function copyCleanTree(srcDir, dstDir, options = {}) {
       }
       if (injectRuleNoticeInSkills && entry.name === 'SKILL.md') {
         const skillDirName = path.basename(path.dirname(srcPath));
-        text = injectMandatoryRuleNotice(text, skillDirName);
+        text = injectMandatoryRuleNotice(text, skillDirName, mapSkill);
       }
       fs.writeFileSync(dstPath, text, 'utf8');
     } else {
@@ -94,6 +106,7 @@ export function copyCleanTree(srcDir, dstDir, options = {}) {
 
 /** Build the three platform-compliant manifests from one canonical plugin.meta.json. */
 export function buildManifests(meta) {
+  const mapSkill = meta.mapSkill || 'cs-ui-ban-do-thuc-don-du-tru';
   const agyPrompts = (meta.agySuggestedPrompts || []).slice(0, 3);
   const agyManifest = {
     name: meta.name,
@@ -118,30 +131,57 @@ export function buildManifests(meta) {
     keywords: meta.keywords || [],
   };
 
+  const codexShortDesc = meta.codexShortDescription || meta.shortDescription;
+  const codexPrompts = (meta.codexDefaultPrompts || agyPrompts)
+    .slice(0, 3)
+    .map((p) => String(p).replace(/\s+/g, ' ').trim());
+
   const codexManifest = {
     name: meta.name,
     version: meta.version,
     description: meta.description,
-    author: meta.author,
+    author: {
+      name: meta.author?.name || 'CaterSoft',
+      email: meta.author?.email || 'support@catersoft.vn',
+      url: meta.author?.url || meta.homepage,
+    },
     homepage: meta.homepage,
     repository: meta.repository,
     license: meta.license || 'MIT',
     keywords: meta.keywords || [],
     skills: './skills/',
     interface: {
-      displayName: meta.displayName,
-      shortDescription: meta.shortDescription,
+      displayName: meta.codexDisplayName || meta.displayName,
+      shortDescription: codexShortDesc,
       longDescription: meta.description,
       developerName: meta.author?.name || 'CaterSoft',
       category: meta.codexCategory || 'Productivity',
       capabilities: ['Interactive', 'Read', 'Write'],
       websiteURL: meta.homepage,
+      supportURL: meta.supportURL || meta.homepage,
       privacyPolicyURL: 'https://www.catersoft.vn',
       termsOfServiceURL: 'https://www.catersoft.vn',
-      defaultPrompt: meta.codexDefaultPrompts || agyPrompts,
-      brandColor: meta.brandColor || '#1677FF',
+      defaultPrompt: codexPrompts,
+      brandColor: meta.brandColor || '#0284C7',
+      brandColorDark: meta.brandColorDark || '#38BDF8',
       composerIcon: `./${meta.logo}`,
       logo: `./${meta.logo}`,
+    },
+    extensions: {
+      'com.openai': {
+        onboardingSkill: `./skills/${mapSkill}/SKILL.md`,
+        publication: {
+          release_notes:
+            meta.releaseNotes ||
+            `Phát hành ${meta.name} v${meta.version} (100% thao tác qua giao diện Web CaterSoft).`,
+          translations: {
+            'vi-VN': {
+              subtitle: codexShortDesc,
+              description: meta.description,
+            },
+          },
+        },
+      },
     },
   };
 
@@ -194,7 +234,11 @@ function buildCodexMarketplaceCatalog(metas, pathPrefix) {
   };
 }
 
-function copyCommonPluginContent(srcPluginDir, dstPluginDir, { includeRules = true } = {}) {
+function copyCommonPluginContent(
+  srcPluginDir,
+  dstPluginDir,
+  { includeRules = true, mapSkill = 'cs-ui-ban-do-thuc-don-du-tru' } = {},
+) {
   fs.mkdirSync(dstPluginDir, { recursive: true });
   const readmeSrc = path.join(srcPluginDir, 'README.md');
   if (fs.existsSync(readmeSrc)) {
@@ -204,10 +248,10 @@ function copyCommonPluginContent(srcPluginDir, dstPluginDir, { includeRules = tr
       'utf8',
     );
   }
-  copyCleanTree(path.join(srcPluginDir, 'assets'), path.join(dstPluginDir, 'assets'));
-  copyCleanTree(path.join(srcPluginDir, 'skills'), path.join(dstPluginDir, 'skills'));
+  copyCleanTree(path.join(srcPluginDir, 'assets'), path.join(dstPluginDir, 'assets'), { mapSkill });
+  copyCleanTree(path.join(srcPluginDir, 'skills'), path.join(dstPluginDir, 'skills'), { mapSkill });
   if (includeRules) {
-    copyCleanTree(path.join(srcPluginDir, 'rules'), path.join(dstPluginDir, 'rules'));
+    copyCleanTree(path.join(srcPluginDir, 'rules'), path.join(dstPluginDir, 'rules'), { mapSkill });
   }
 }
 
@@ -239,32 +283,32 @@ export function buildAll({ rootDir, quiet = false, skipZip = false } = {}) {
   for (const dirName of pluginDirs) {
     const srcPluginDir = path.join(srcRoot, dirName);
     const meta = JSON.parse(fs.readFileSync(path.join(srcPluginDir, 'plugin.meta.json'), 'utf8'));
+    const mapSkill = meta.mapSkill || 'cs-ui-ban-do-thuc-don-du-tru';
     metas.push(meta);
 
     const { agyManifest, claudeManifest, codexManifest } = buildManifests(meta);
 
     // 1. Unified repo plugin bundle under plugins/<name>/ for GitHub Marketplace install across all 3 platforms
     const repoPluginDir = path.join(pluginsOutRoot, meta.name);
-    copyCommonPluginContent(srcPluginDir, repoPluginDir, { includeRules: true });
+    copyCommonPluginContent(srcPluginDir, repoPluginDir, { includeRules: true, mapSkill });
     writeJson(path.join(repoPluginDir, 'plugin.json'), agyManifest);
     writeJson(path.join(repoPluginDir, '.claude-plugin', 'plugin.json'), claudeManifest);
     writeJson(path.join(repoPluginDir, '.codex-plugin', 'plugin.json'), codexManifest);
 
     // 2. Standalone dist/claude target
     const distClaudePluginDir = path.join(distRoot, 'claude', 'plugins', meta.name);
-    copyCommonPluginContent(srcPluginDir, distClaudePluginDir, { includeRules: false });
+    copyCommonPluginContent(srcPluginDir, distClaudePluginDir, { includeRules: false, mapSkill });
     writeJson(path.join(distClaudePluginDir, '.claude-plugin', 'plugin.json'), claudeManifest);
 
     // 3. Standalone dist/agy target
     const distAgyPluginDir = path.join(distRoot, 'agy', meta.name);
-    copyCommonPluginContent(srcPluginDir, distAgyPluginDir, { includeRules: true });
+    copyCommonPluginContent(srcPluginDir, distAgyPluginDir, { includeRules: true, mapSkill });
     writeJson(path.join(distAgyPluginDir, 'plugin.json'), agyManifest);
 
     // 4. Standalone dist/codex portal archive directory & GitHub-style marketplace snapshot
     const distCodexPluginDir = path.join(distRoot, 'codex', meta.name);
-    copyCommonPluginContent(srcPluginDir, distCodexPluginDir, { includeRules: false });
+    copyCommonPluginContent(srcPluginDir, distCodexPluginDir, { includeRules: false, mapSkill });
     writeJson(path.join(distCodexPluginDir, '.codex-plugin', 'plugin.json'), codexManifest);
-    writeJson(path.join(distCodexPluginDir, 'plugin.json'), codexManifest);
 
     if (!skipZip) {
       const zipName = `${meta.name}-v${meta.version}.zip`;

@@ -48,18 +48,27 @@ function readPluginMetas(rootDir) {
 }
 
 function ensureTagAtHead(rootDir, tagName, message) {
+  let existing = null;
   try {
-    const existing = execFileSync('git', ['rev-parse', '-q', '--verify', `refs/tags/${tagName}`], {
+    existing = execFileSync('git', ['rev-parse', '-q', '--verify', `refs/tags/${tagName}^{commit}`], {
       cwd: rootDir,
       encoding: 'utf8',
     }).trim();
+  } catch {
+    existing = null;
+  }
+
+  if (existing) {
     const head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: rootDir, encoding: 'utf8' }).trim();
     if (existing !== head) {
-      execFileSync('git', ['tag', '-a', '-f', tagName, '-m', message], { cwd: rootDir, encoding: 'utf8' });
+      throw new Error(
+        `Refusing to force-move existing immutable tag ${tagName} (${existing} != ${head}). Bump plugin version first.`,
+      );
     }
-  } catch {
-    execFileSync('git', ['tag', '-a', tagName, '-m', message], { cwd: rootDir, encoding: 'utf8' });
+    return;
   }
+
+  execFileSync('git', ['tag', '-a', tagName, '-m', message], { cwd: rootDir, encoding: 'utf8' });
 }
 
 function testRemoteCliInstalls(repoSlug, metas) {
@@ -77,12 +86,12 @@ function testRemoteCliInstalls(repoSlug, metas) {
     }
     const claudeList = execFileSync(claudeCli, ['plugin', 'list', '--json'], { env, encoding: 'utf8' });
 
-    // 2. Antigravity GitHub install (repo root or tree subpath)
+    // 2. Antigravity GitHub install (subpath first for multi-plugin repos, then repo root)
     const agyResults = [];
     for (const meta of metas) {
       const candidates = [
-        `https://github.com/${repoSlug}`,
         `https://github.com/${repoSlug}/tree/main/plugins/${meta.name}`,
+        `https://github.com/${repoSlug}`,
       ];
       let installedFrom = null;
       let lastErr = null;
@@ -145,7 +154,7 @@ export function runPublish({
   const releaseAssets = [];
 
   for (const meta of metas) {
-    tagsToPush.push(`v${meta.version}`, `${meta.name}--v${meta.version}`);
+    tagsToPush.push(`${meta.name}--v${meta.version}`);
     releaseAssets.push(`dist/codex/${meta.name}-v${meta.version}.zip`);
   }
 
@@ -219,7 +228,6 @@ export function runPublish({
   execFileSync('git', ['push', '-u', 'origin', 'main'], { cwd: rootDir, encoding: 'utf8' });
 
   for (const meta of metas) {
-    ensureTagAtHead(rootDir, `v${meta.version}`, `Release ${meta.name} v${meta.version}`);
     ensureTagAtHead(rootDir, `${meta.name}--v${meta.version}`, `Release ${meta.name} v${meta.version}`);
   }
   execFileSync('git', ['push', 'origin', '--tags'], { cwd: rootDir, encoding: 'utf8' });

@@ -1,0 +1,43 @@
+{
+  "name": "catersoft-doanh-thu-pnl",
+  "displayName": "CaterSoft — Thu chi, ĐNTT, Công nợ & P&L",
+  "codexDisplayName": "CaterSoft Thu chi & P&L",
+  "shortDescription": "Hướng dẫn thao tác ĐNTT, Sổ quỹ, Công nợ, Doanh thu suất ăn & Báo cáo P&L qua Web UI",
+  "codexShortDescription": "Thu chi, công nợ & P&L Web UI",
+  "version": "1.0.0",
+  "mapSkill": "cs-ui-ban-do-doanh-thu-pnl",
+  "description": "Bộ kỹ năng hướng dẫn Agent AI của khách hàng thao tác trên giao diện Web CaterSoft cho chuỗi Tài chính, Thu chi & Báo cáo Lãi/Lỗ (P&L): tài khoản ngân hàng, phương thức thanh toán, Đề nghị thanh toán (ĐNTT), Sổ quỹ thu chi, Công nợ phải thu/phải trả & tuổi nợ, Phần ăn thực tế & giá khách hàng, Cấu hình & Báo cáo KQKD / P&L (100% qua UI).",
+  "author": {
+    "name": "CaterSoft",
+    "url": "https://guide.catersoft.vn"
+  },
+  "homepage": "https://guide.catersoft.vn",
+  "supportURL": "https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft",
+  "repository": "https://github.com/catersoft-vn/catersoft-plugins",
+  "license": "MIT",
+  "logo": "assets/logo.svg",
+  "brandColor": "#B45309",
+  "brandColorDark": "#FBBF24",
+  "claudeCategory": "productivity",
+  "codexCategory": "Finance",
+  "releaseNotes": "Phát hành v1.0.0: trọn bộ 5 kỹ năng thao tác 100% Web UI cho Danh mục & ĐNTT, Sổ quỹ & Công nợ, Giá KH & Doanh thu suất ăn, và Báo cáo KQKD / P&L 3 phần.",
+  "keywords": [
+    "catersoft",
+    "thu-chi",
+    "de-nghi-thanh-toan",
+    "cong-no",
+    "doanh-thu-suat-an",
+    "bao-cao-pnl",
+    "ke-toan"
+  ],
+  "agySuggestedPrompts": [
+    "Thiết lập tài khoản ngân hàng, phương thức thanh toán và cấu hình P&L 3 phần trước khi thu chi",
+    "Tạo Đề nghị thanh toán (ĐNTT), ghi sổ quỹ thu chi và đối chiếu công nợ khách hàng / NCC",
+    "Chốt phần ăn thực tế tính doanh thu và xem báo cáo KQKD / P&L theo bếp hoặc điểm phục vụ"
+  ],
+  "codexDefaultPrompts": [
+    "Thiết lập tài khoản ngân hàng, phương thức thanh toán và cấu hình P&L 3 phần trước khi thu chi",
+    "Tạo Đề nghị thanh toán (ĐNTT), ghi sổ quỹ thu chi và đối chiếu công nợ khách hàng / NCC",
+    "Chốt phần ăn thực tế tính doanh thu và xem báo cáo KQKD / P&L theo bếp hoặc điểm phục vụ"
+  ]
+}
