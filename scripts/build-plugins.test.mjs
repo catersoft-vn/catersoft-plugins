@@ -66,7 +66,10 @@ test('buildManifests enforces AGY <= 3 prompts, Codex <= 30-char portal limits, 
   assert.equal(agyManifest.suggestedPrompts.length, 3);
   assert.equal('keywords' in agyManifest, false);
   assert.equal(claudeManifest.name, 'catersoft');
-  assert.equal(claudeManifest.mcpServers, './.claude-plugin/mcp.json');
+  assert.equal(claudeManifest.privacyPolicyUrl, 'https://www.catersoft.vn');
+  assert.deepEqual(claudeManifest.mcpServers, {
+    catersoft: { type: 'http', url: 'https://catersoft.app/mcp' },
+  });
   assert.equal(codexManifest.skills, './skills/');
   assert.equal(codexManifest.mcpServers, './.codex-plugin/mcp.json');
   assert.equal(mcpConfigs?.agyMcpConfig.mcpServers.catersoft.serverUrl, 'https://catersoft.app/mcp');
@@ -138,17 +141,23 @@ test('built outputs build strictly 1 plugin (catersoft@1.0.0) cleanly, emit remo
     assert.equal(fs.existsSync(path.join(distAgyDir, '.mcp.json')), false, 'dist/agy/catersoft must not contain root .mcp.json');
 
     const repoAgyMcp = JSON.parse(fs.readFileSync(path.join(repoPluginDir, 'mcp_config.json'), 'utf8'));
-    const repoClaudeMcp = JSON.parse(fs.readFileSync(path.join(repoPluginDir, '.claude-plugin', 'mcp.json'), 'utf8'));
+    const repoClaudeManifest = JSON.parse(
+      fs.readFileSync(path.join(repoPluginDir, '.claude-plugin', 'plugin.json'), 'utf8'),
+    );
     const repoCodexMcp = JSON.parse(fs.readFileSync(path.join(repoPluginDir, '.codex-plugin', 'mcp.json'), 'utf8'));
-    const distClaudeMcp = JSON.parse(fs.readFileSync(path.join(distClaudeDir, '.mcp.json'), 'utf8'));
+    const distClaudeManifest = JSON.parse(
+      fs.readFileSync(path.join(distClaudeDir, '.claude-plugin', 'plugin.json'), 'utf8'),
+    );
     const distAgyMcp = JSON.parse(fs.readFileSync(path.join(distAgyDir, 'mcp_config.json'), 'utf8'));
     const distCodexMcp = JSON.parse(fs.readFileSync(path.join(codexDir, '.mcp.json'), 'utf8'));
 
+    assert.equal(fs.existsSync(path.join(repoPluginDir, '.claude-plugin', 'mcp.json')), false);
     assert.equal(repoAgyMcp.mcpServers.catersoft.serverUrl, 'https://catersoft.app/mcp');
     assert.equal(distAgyMcp.mcpServers.catersoft.serverUrl, 'https://catersoft.app/mcp');
-    assert.equal(repoClaudeMcp.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
+    assert.equal(repoClaudeManifest.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
+    assert.equal(repoClaudeManifest.privacyPolicyUrl, 'https://www.catersoft.vn');
     assert.equal(repoCodexMcp.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
-    assert.equal(distClaudeMcp.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
+    assert.equal(distClaudeManifest.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
     assert.equal(distCodexMcp.mcpServers.catersoft.url, 'https://catersoft.app/mcp');
 
     validateOpenAiSubmissionRules(codexDir, codexManifest, entries);

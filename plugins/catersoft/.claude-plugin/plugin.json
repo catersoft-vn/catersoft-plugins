@@ -8,6 +8,7 @@
     "url": "https://guide.catersoft.vn"
   },
   "homepage": "https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft",
+  "privacyPolicyUrl": "https://www.catersoft.vn",
   "repository": "https://github.com/catersoft-vn/catersoft-plugins",
   "license": "MIT",
   "keywords": [
@@ -20,5 +21,10 @@
     "nguyen-lieu",
     "phan-an"
   ],
-  "mcpServers": "./.claude-plugin/mcp.json"
+  "mcpServers": {
+    "catersoft": {
+      "type": "http",
+      "url": "https://catersoft.app/mcp"
+    }
+  }
 }

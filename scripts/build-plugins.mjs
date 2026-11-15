@@ -131,12 +131,14 @@ export function buildMcpConfigs(meta) {
 export function buildManifests(
   meta,
   {
-    claudeMcpConfigPath = './.claude-plugin/mcp.json',
+    claudeMcpConfigPath = null,
     codexMcpConfigPath = './.codex-plugin/mcp.json',
   } = {},
 ) {
   const mapSkill = meta.mapSkill || 'cs-ui-ban-do-thuc-don-du-tru';
-  const hasMcp = typeof meta.mcpServerUrl === 'string' && meta.mcpServerUrl.trim().length > 0;
+  const trimmedMcpUrl =
+    typeof meta.mcpServerUrl === 'string' ? meta.mcpServerUrl.trim() : '';
+  const hasMcp = trimmedMcpUrl.length > 0;
   const agyPrompts = (meta.agySuggestedPrompts || []).slice(0, 3);
   const agyManifest = {
     name: meta.name,
@@ -156,10 +158,22 @@ export function buildManifests(
     description: meta.description,
     author: meta.author,
     homepage: meta.homepage,
+    privacyPolicyUrl: meta.privacyPolicyUrl || 'https://www.catersoft.vn',
     repository: meta.repository,
     license: meta.license || 'MIT',
     keywords: meta.keywords || [],
-    ...(hasMcp ? { mcpServers: claudeMcpConfigPath } : {}),
+    ...(hasMcp
+      ? {
+          mcpServers: claudeMcpConfigPath
+            ? claudeMcpConfigPath
+            : {
+                [meta.name]: {
+                  type: 'http',
+                  url: trimmedMcpUrl,
+                },
+              },
+        }
+      : {}),
   };
 
   const codexShortDesc = meta.codexShortDescription || meta.shortDescription;
@@ -324,14 +338,12 @@ export function buildAll({ rootDir, quiet = false, skipZip = false } = {}) {
       claudeManifest: repoClaudeManifest,
       codexManifest: repoCodexManifest,
     } = buildManifests(meta, {
-      claudeMcpConfigPath: './.claude-plugin/mcp.json',
       codexMcpConfigPath: './.codex-plugin/mcp.json',
     });
     const {
       claudeManifest: distClaudeManifest,
       codexManifest: distCodexManifest,
     } = buildManifests(meta, {
-      claudeMcpConfigPath: './.mcp.json',
       codexMcpConfigPath: './.mcp.json',
     });
 
@@ -343,7 +355,6 @@ export function buildAll({ rootDir, quiet = false, skipZip = false } = {}) {
     writeJson(path.join(repoPluginDir, '.codex-plugin', 'plugin.json'), repoCodexManifest);
     if (mcpConfigs) {
       writeJson(path.join(repoPluginDir, 'mcp_config.json'), mcpConfigs.agyMcpConfig);
-      writeJson(path.join(repoPluginDir, '.claude-plugin', 'mcp.json'), mcpConfigs.standardMcpConfig);
       writeJson(path.join(repoPluginDir, '.codex-plugin', 'mcp.json'), mcpConfigs.standardMcpConfig);
     }
 
@@ -351,9 +362,6 @@ export function buildAll({ rootDir, quiet = false, skipZip = false } = {}) {
     const distClaudePluginDir = path.join(distRoot, 'claude', 'plugins', meta.name);
     copyCommonPluginContent(srcPluginDir, distClaudePluginDir, { includeRules: false, mapSkill });
     writeJson(path.join(distClaudePluginDir, '.claude-plugin', 'plugin.json'), distClaudeManifest);
-    if (mcpConfigs) {
-      writeJson(path.join(distClaudePluginDir, '.mcp.json'), mcpConfigs.standardMcpConfig);
-    }
 
     // 3. Standalone dist/agy target
     const distAgyPluginDir = path.join(distRoot, 'agy', meta.name);

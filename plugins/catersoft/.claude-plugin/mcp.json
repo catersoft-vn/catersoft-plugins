@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "catersoft": {
-      "type": "http",
-      "url": "https://catersoft.app/mcp"
-    }
-  }
-}
