@@ -76,3 +76,11 @@ description: >-
 - Trạng thái «Lỗi dữ liệu/mapping» (ô «!») có hai nguyên nhân chính: **ngày chưa có cấu hình** (trang Phần ăn thực tế báo «Ngày … chưa có cấu hình» — rê chuột lên ô thấy «thiếu snapshot cấu hình cho ngày này») hoặc Điểm dự trù chưa liên kết Nơi phục vụ. Nút «Cần rà soát» liệt kê từng loại lỗi.
 - **«Tạo cấu hình»** chụp Thiết lập số phần ăn của bếp cho ngày đó; bếp chưa có Nơi phục vụ và Thiết lập số phần ăn thì khai hai trang đó trước. Đây là thao tác ghi: chỉ bấm khi người dùng muốn bắt đầu nhập ngày đó.
 - Công ty không có trang «Nhập phần ăn (pivot)» (không thấy cả trên menu lẫn ô ⌘K) thì nhập Số báo và Số thực tế trên **Phần ăn thực tế**; trang này không có «Lấy số từ dự trù». Ở vài công ty, Phần ăn thực tế, Doanh thu SACN, Thiết lập số phần ăn và Nơi Phục Vụ nằm trong nhóm menu «Khách hàng».
+
+## 7. Phạm vi MCP Giai đoạn 1 vs Giao diện Web
+
+| STT | Tác vụ | Có thể dùng MCP Giai đoạn 1 | Cần thao tác trên Giao diện Web |
+| :-: | :--- | :--- | :--- |
+| 1 | Nơi phục vụ & Thiết lập | Đọc ID qua `cs_serving_locations_list`, `cs_meal_customer_types_list`, `cs_customers_list` | Tạo/sửa Nơi phục vụ (`CS-DTP-04`), Thiết lập số phần ăn theo bếp (`CS-DTP-03`), tạo snapshot cấu hình ngày |
+| 2 | Nhập Số báo / Thực tế | `cs_actual_meal_servings_list`, `cs_actual_meal_serving_set` | Bấm «Lấy số từ dự trù» (`CS-DTP-01`), «Đồng bộ đơn giá» (`CS-DTP-01B`), nhập Doanh thu bổ sung |
+| 3 | Tổng hợp & Đối soát | Xem bảng kê nhanh qua `cs_actual_meal_servings_list` | Xuất Excel **Doanh thu SACN** (`CS-DTP-02`) và xử lý đối chiếu **So sánh dự trù - thực tế** (`CS-TDT-15`) |

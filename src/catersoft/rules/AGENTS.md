@@ -8,23 +8,25 @@ Khi hỗ trợ nhân sự của khách hàng tra cứu hoặc nhập liệu trê
 | :-: | :--- | :--- |
 | 1 | Đăng nhập qua OAuth | Máy chủ MCP từ xa (`https://catersoft.app/mcp`) sử dụng chuẩn **OAuth 2.1 + PKCE**. Khi cần kết nối, hướng dẫn người dùng hoàn tất đăng nhập trên trình duyệt tại trang **Cấp quyền Trợ lý AI (MCP)** để hệ thống cấp token riêng gắn với chính tài khoản CaterSoft và công ty họ chọn. **Tuyệt đối không hỏi mật khẩu, không yêu cầu API key tĩnh hay token thủ công.** |
 | 2 | Đúng quyền tài khoản | Mỗi công cụ MCP chỉ chạy được khi vai trò và danh sách màn hình được mở của chính tài khoản đăng nhập cho phép (vai trò chỉ đọc như `viewer`/`read_only` tự động bị chặn mọi thao tác ghi `:write`). Nếu công cụ trả về lỗi thiếu quyền (`-32003`), báo rõ để người dùng liên hệ quản trị công ty cấp quyền trên màn hình tương ứng. |
-| 3 | Chỉ đọc/tạo/sửa cơ bản | Giai đoạn 1 chỉ cung cấp công cụ tra cứu và tạo mới/cập nhật danh mục nền (ĐVT, nhóm hàng, nguyên liệu, khách hàng, NCC, món ăn, nhóm món, cơ cấu món, công thức & dòng định lượng, thực đơn tuần, suất ăn thực tế). **Tuyệt đối không có công cụ xóa** và không tự động sửa chứng từ mua hàng/tồn kho/thu chi. Khi cần xóa mềm hoặc chạy nghiệp vụ chuyên sâu ngoài MCP, chuyển sang hướng dẫn thao tác trên giao diện Web. |
-| 4 | Đọc trước khi ghi | Trước khi tạo mới hay cập nhật qua MCP, luôn tra cứu danh sách hiện có (`*_list` / `cs_tenant_whoami`) để dùng đúng ID thật (`unitId`, `itemGroupId`, `dishId`, `kitchenId`...), tránh tạo trùng tên hoặc chọn sai công ty. Sau khi ghi thành công, gọi `*_get` hoặc `*_list` đọc lại để xác nhận kết quả. |
-| 5 | Không tự ý thay hàng loạt | Các thao tác ảnh hưởng diện rộng (ghi đè toàn bộ thực đơn ngày, đổi định lượng hàng loạt, khóa/mở hoặc sửa số liệu đã chốt sổ, xóa mềm trên UI) chỉ thực hiện sau khi người dùng xác nhận rõ ràng. |
+| 3 | Chỉ đọc/tạo/sửa cơ bản | Giai đoạn 1 cung cấp công cụ đọc/tạo/sửa cho danh mục nền & thực đơn (`ĐVT`, `nhóm hàng`, `nguyên liệu`, `KH`, `NCC`, `món ăn`, `nhóm/cơ cấu món`, `công thức`, `thực đơn tuần`, `suất ăn thực tế`, `công việc`) và chỉ đọc cho `bếp`, `kho`, `PO`, `tồn kho`, `thu chi`, `nhân sự`, `báo cáo`. **Tuyệt đối không có công cụ xóa** và không tự sửa chứng từ mua hàng/tồn kho/thu chi/lương. Khi cần xóa mềm hoặc chạy nghiệp vụ chuyên sâu ngoài MCP, chuyển sang thao tác trên giao diện Web. |
+| 4 | Đọc trước khi ghi | Trước khi tạo mới hay cập nhật qua MCP, luôn gọi `cs_tenant_whoami` và tra cứu danh sách hiện có (`*_list`) để dùng đúng ID thật (`unitId`, `itemGroupId`, `dishId`, `kitchenId`...), tránh tạo trùng tên hoặc chọn sai công ty. Sau khi ghi thành công, gọi `*_get` hoặc `*_list` đọc lại để xác nhận kết quả. |
+| 5 | Không tự ý thay hàng loạt | Các thao tác ảnh hưởng diện rộng (ghi đè toàn bộ thực đơn ngày, đổi định lượng hàng loạt, chốt kiểm kê đặt lại tồn, giải ngân thu chi, xóa mềm trên UI) chỉ thực hiện sau khi người dùng xác nhận rõ ràng. |
 
 ---
 
 ## 2. Cơ chế Tự khám phá Màn hình & Tài liệu khi thao tác Giao diện Web
 
-Với các màn hình cấu hình hoặc tác vụ thao tác trên trình duyệt (Excel, in PDF, khóa kỳ, thiết lập phức tạp), Agent AI kiểm tra theo 4 nguồn:
+Với các màn hình cấu hình hoặc tác vụ thao tác trên trình duyệt (Excel, in PDF, khóa kỳ, mua hàng/kho, kế toán, nhân sự, phân quyền), Agent AI kiểm tra theo 4 nguồn:
 
-1. **Menu bên trái (sidebar):** Mở đúng màn hình theo phân hệ (*Thực đơn dự trù*, *Món ăn/Nguyên liệu*, *Dữ liệu chung*…). Nếu tài khoản không thấy mục nào, báo lại cho người dùng thay vì đoán đường dẫn.
-2. **Cổng hướng dẫn sử dụng (`https://guide.catersoft.vn`):** Mở từ **Menu Tài khoản (góc dưới bên trái sidebar) → Hướng dẫn sử dụng** hoặc mục **Thực đơn & Dự trù** (`https://guide.catersoft.vn/thuc-don`). Khi tài liệu khác giao diện hiện tại, luôn làm theo **giao diện đang thấy**.
+1. **Menu bên trái (sidebar):** Mở đúng màn hình theo phân hệ (hai tên miền `https://catersoft.app` và `https://app.catersoft.vn` dùng chung cùng hệ thống và dữ liệu). Nếu tài khoản không thấy mục nào, báo lại cho người dùng nhờ quản trị công ty cấp quyền thay vì tự gõ đường dẫn.
+2. **Tài liệu máy đọc trực tiếp & Cổng hướng dẫn:** Đọc `https://catersoft.app/llms.txt` (cùng 5 file theo phân hệ: `/llms-meal.txt`, `/llms-inventory.txt`, `/llms-accounting.txt`, `/llms-hr.txt`, `/llms-settings.txt`) và cổng `https://guide.catersoft.vn` (bài AI: `/bat-dau/tro-ly-ai-catersoft`). Khi tài liệu khác giao diện hiện tại, luôn làm theo **giao diện đang thấy**.
 3. **Thẻ danh mục chức năng ngay trong DOM (`page-function-catalog`):**
-   - Đọc `<script type="application/json" data-slot="page-function-catalog" data-page-code="CS-...">` (`document.querySelector('script[data-slot="page-function-catalog"]')?.textContent`) để nắm chính xác `pageCode`, `pageTitle`, tab con `guests` và từng chức năng (`[data-function-code="<PAGE>-Fnn"]`).
+   - Với màn hình gộp nhiều tab, ưu tiên tìm trong `.ant-tabs-tabpane-active` đang mở:
+     `(() => { const p = [...document.querySelectorAll('.ant-tabs-tabpane-active')].at(-1) || document; return JSON.parse((p.querySelector('script[data-slot="page-function-catalog"]') || document.querySelector('script[data-slot="page-function-catalog"]'))?.textContent || 'null'); })()`
+   - Lấy đúng `pageCode`, `pageTitle`, `guests` và từng chức năng (`[data-function-code="<PAGE>-Fnn"]`).
 4. **Màn hình Quy trình & Tiện ích:** Nhóm **Thực đơn dự trù** (`/weekly-meal-plan`, `CS-TDT-18`) và **Tiện ích → Khởi tạo bếp mới** (`/tien-ich/khoi-tao-bep`, `CS-TI-01`).
 
-Luôn đọc skill **`cs-ui-ban-do-thuc-don-du-tru`** trước để nắm đúng thứ tự phụ thuộc của toàn chuỗi dữ liệu.
+Luôn đọc skill **`cs-ui-ban-do-thuc-don-du-tru`** trước để nắm đúng thứ tự phụ thuộc của toàn chuỗi dữ liệu và chọn đúng skill trong 10 kỹ năng hiện có.
 
 ---
 

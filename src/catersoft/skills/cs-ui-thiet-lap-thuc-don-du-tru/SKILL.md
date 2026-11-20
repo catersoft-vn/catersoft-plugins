@@ -84,3 +84,11 @@ Trong ngăn kéo Chỉnh sửa kế hoạch sản xuất, trên **cây «Cấu t
 - Tuần đã có thực đơn: **Thao tác → «Cập nhật cấu hình mới nhất»** → ca, thực đơn, giá/phần ăn, cơ cấu phần đổi theo thiết lập; **món đã xếp trong ô không bị xoá**; cơ cấu món đã bỏ khỏi thiết lập thì biến khỏi lưới (món đã xếp ở đó không bị xoá hẳn nhưng không còn hiện và không vào file xuất). Trước khi bỏ một cơ cấu đang có món, ghi lại món của các ngày để xếp lại sang cơ cấu mới.
 - «Cập nhật cấu hình mới nhất» có thể **bỏ cơ cấu phần** đang có trong tuần: đọc cảnh báo và hỏi người dùng trước khi xác nhận.
 - Nhân viên cần quyền «Sửa ô Thực đơn dự trù (tuần + ngày)» và «Cập nhật cấu hình mới nhất (tuần)»; thiếu thì mục này bị khoá.
+
+## 7. Phạm vi MCP Giai đoạn 1 vs Giao diện Web
+
+| STT | Tác vụ | Có thể dùng MCP Giai đoạn 1 | Cần thao tác trên Giao diện Web |
+| :-: | :--- | :--- | :--- |
+| 1 | Danh mục bếp, ca, điểm | Chỉ đọc ID qua `cs_kitchens_list`, `cs_shifts_list`, `cs_serving_locations_list`, `cs_meal_customer_types_list` | Tạo/sửa Ca làm việc (`CS-DLC-11`), Nhóm ca, Điểm dự trù (`CS-TDT-07`), Nhóm điểm, Quy tắc chọn món, Giá phần ăn |
+| 2 | Khách hàng & Nơi phục vụ | `cs_customers_list/get/create/update` | Khai Nơi phục vụ (`CS-DTP-04`) gắn khách hàng × bếp × đơn giá |
+| 3 | Thiết lập thực đơn dự trù | Chỉ đọc NHTĐ (`cs_recipes_list`) để đối chiếu | Dựng khung **Thiết lập thực đơn dự trù** (`CS-TDT-06`), Copy/Dán giữa các thực đơn/bếp, Áp thiết lập vào tuần, Wizard `CS-TI-01` |

@@ -110,3 +110,20 @@ Trong Tiện ích, «Dựng ngân hàng thực đơn» (`CS-TI-02`) nhân bản 
 - Sửa dữ liệu nền (nguyên liệu, món, định lượng, thiết lập) ảnh hưởng mọi tuần/ngày dùng chung; báo người dùng phạm vi ảnh hưởng trước khi lưu.
 - Các thao tác **thay thế toàn bộ** phải hỏi người dùng trước: «Khởi tạo nguyên liệu từ Excel» (xóa toàn bộ định lượng của NHTĐ), «Ghi đè tất cả» khi lấy số từ dự trù, «Dán» phần ăn, «Đồng bộ đơn giá» phần ăn thực tế (không hoàn tác được).
 - Sau mỗi bước, đọc lại trên trang kế tiếp của chuỗi (ví dụ khai định lượng xong → mở Dự trù ngày xem nguyên liệu tổng hợp).
+
+## 5. Bản đồ 10 kỹ năng & Phạm vi MCP Giai đoạn 1 vs Giao diện Web
+
+| STT | Tên ngắn | Kỹ năng tương ứng | Được phép qua MCP (`https://catersoft.app/mcp`) | Bắt buộc thao tác trên Giao diện Web |
+| :-: | :--- | :--- | :--- | :--- |
+| 1 | Bản đồ chuỗi | `cs-ui-ban-do-thuc-don-du-tru` | `cs_tenant_whoami`, `cs_kitchens_list`, đọc `resources/list` & `prompts/list` | Mở Wizard **Khởi tạo bếp mới (7 bước)** (`/tien-ich/khoi-tao-bep`, `CS-TI-01`) |
+| 2 | Nguyên liệu ĐVT | `cs-ui-nguyen-lieu-dvt` | `cs_units_*`, `cs_item_groups_*`, `cs_inventory_items_*` (list/get/create/update) | Nhóm lớn/nhỏ, Đơn vị quy đổi, TLHH sơ chế (%), nạp Excel, gộp trùng, sửa mã nhóm |
+| 3 | Món ăn định lượng | `cs-ui-mon-an-dinh-luong` | `cs_dishes_list`, `cs_dish_*`, `cs_dish_groups_*`, `cs_dish_slots_*`, `cs_recipes_*`, `cs_recipe_ingredients_*` | Hao hụt chế biến, cập nhật nhiều NHTĐ cùng lúc, upload Excel NHTĐ, Dựng NHTĐ (`CS-TI-02`) |
+| 4 | Thiết lập dự trù | `cs-ui-thiet-lap-thuc-don-du-tru` | Chỉ đọc `cs_shifts_list`, `cs_serving_locations_list`, `cs_meal_customer_types_list`, `cs_customers_*`, `cs_recipes_list` | Tạo/sửa **Thiết lập thực đơn dự trù** (`CS-TDT-06`), Ca/Điểm/Quy tắc/Giá phần ăn, Copy sang bếp khác |
+| 5 | Thực đơn tuần | `cs-ui-thuc-don-tuan-du-tru-ngay` | `cs_weekly_meal_plan_cells_by_day`, `cs_weekly_meal_plan_cell_set_dish`, `cs_weekly_meal_plan_cell_set_servings` | Khởi tạo/Copy Thực đơn tuần, Dự trù ngày (`CS-TDT-02`/`03`), Giá dự trù bếp (`CS-TDT-05`), xuất file đặt hàng |
+| 6 | Phần ăn thực tế | `cs-ui-phan-an-thuc-te` | `cs_actual_meal_servings_list`, `cs_actual_meal_serving_set` | Nơi phục vụ (`CS-DTP-04`), Thiết lập số phần ăn (`CS-DTP-03`), Lấy số từ dự trù, Doanh thu SACN (`CS-DTP-02`), Đối soát |
+| 7 | Mua hàng & Kho | `cs-ui-mua-hang-kho-kiem-ke` | Chỉ đọc `cs_purchase_orders_list`, `cs_inventory_balances_list`, `cs_warehouses_list`, `cs_suppliers_*` | Lập PR, tổng hợp & tạo/gộp/tách/gửi mail PO, nhận hàng nhập kho, xuất/chuyển kho, kiểm kê & khóa kỳ |
+| 8 | Kho FIFO & Đối tác | `cs-ui-kho-fifo-va-doi-tac` | Không có công cụ ghi FIFO | Ánh xạ đối tác/hàng hóa PO→SO, mua nhận lô NSX/HSD, bán xuất lô FEFO, kiểm kê & khôi phục đơn FIFO |
+| 9 | Thu chi & KQKD | `cs-ui-thu-chi-cong-no-kqkd` | Chỉ đọc `cs_financial_transactions_list`, `cs_financial_transaction_get`, `cs_bank_accounts_list`, `cs_aggregated_report_*` | Danh mục dòng tiền, ĐNTT, lập phiếu thu/chi, thu chưa xác định, công nợ, KQKD / P&L & Báo cáo Cơm |
+| 10 | Nhân sự & Quyền | `cs-ui-nhan-su-va-phan-quyen` | Chỉ đọc `cs_hr_employees_list`, `cs_hr_employee_get` (và đọc/sửa công việc `cs_todos_*`) | Hồ sơ nhân sự, hợp đồng, chấm công/khóa ngày/lương, org chart bếp, cấu hình công ty & phân quyền chi tiết |
+
+> Hai tên miền `https://catersoft.app` và `https://app.catersoft.vn` dùng chung một hệ thống, dữ liệu và máy chủ MCP. Tài liệu kỹ thuật đầy đủ: `https://catersoft.app/llms.txt` và 5 shard (`/llms-meal.txt`, `/llms-inventory.txt`, `/llms-accounting.txt`, `/llms-hr.txt`, `/llms-settings.txt`).

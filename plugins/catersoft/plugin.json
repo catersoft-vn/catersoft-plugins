@@ -1,8 +1,8 @@
 {
   "name": "catersoft",
   "displayName": "CaterSoft",
-  "version": "1.0.0",
-  "description": "Plugin chính thức duy nhất của CaterSoft kết hợp bộ kỹ năng nhập liệu cơ bản (Nguyên liệu & ĐVT, Món ăn & Định lượng, Thiết lập thực đơn, Thực đơn tuần & Dự trù ngày, Phần ăn thực tế) với máy chủ CaterSoft MCP đăng nhập OAuth 2.1 theo từng tài khoản (tra cứu, tạo mới và cập nhật danh mục nền đúng quyền màn hình; không chứa công cụ xóa dữ liệu).",
+  "version": "1.1.0",
+  "description": "Plugin chính thức duy nhất của CaterSoft kết hợp 10 kỹ năng nghiệp vụ trọn chuỗi (Thực đơn & Dự trù, Mua hàng & Kho bình quân, Kho FIFO & Đối tác, Thu chi & Công nợ & KQKD, Nhân sự & Phân quyền) với máy chủ CaterSoft MCP đăng nhập OAuth 2.1 theo từng tài khoản.",
   "author": {
     "name": "CaterSoft",
     "email": "support@catersoft.vn",

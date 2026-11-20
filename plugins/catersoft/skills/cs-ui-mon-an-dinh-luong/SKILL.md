@@ -98,3 +98,11 @@ description: >-
 - Mỗi món sẽ xuất hiện trên thực đơn đều có định lượng trong **đúng NHTĐ** mà thực đơn (điểm dự trù) dùng.
 - Định lượng nhập cho **một phần ăn**, đúng ĐVT định lượng (thường Gam/Ml), không nhập theo Kg nếu ĐVT là Gam.
 - Mở Dự trù ngày của một ngày có món đó → «Xem Nguyên liệu tổng hợp (Ngày)» thấy nguyên liệu với số lượng hợp lý.
+
+## 6. Phạm vi MCP Giai đoạn 1 vs Giao diện Web
+
+| STT | Tác vụ | Có thể dùng MCP Giai đoạn 1 | Cần thao tác trên Giao diện Web |
+| :-: | :--- | :--- | :--- |
+| 1 | Nhóm món & Cơ cấu món | `cs_dish_groups_list/create/update`, `cs_dish_slots_list/get/create/update` | Khai Nhóm NL chính, gán nhóm món hàng loạt, sửa «Tên hiển thị (bản in)» có cảnh báo ảnh hưởng |
+| 2 | Món ăn (`CS-MNL-07`) | `cs_dishes_list`, `cs_dish_get/create/update` | Upload Excel món ăn, xem lịch sử thay đổi món, vô hiệu hóa / khôi phục món |
+| 3 | Ngân hàng thực đơn & ĐL | `cs_recipes_list/get/create/update`, `cs_recipe_ingredients_list/get/create/update` | Hao hụt chế biến (`CS-MNL-14`), sửa nhiều NHTĐ (`CS-MNL-10`), Upload Excel NHTĐ (`CS-MNL-03`/`13`), Dựng NHTĐ (`CS-TI-02`), Xóa định lượng (`F06`/`F13`) |

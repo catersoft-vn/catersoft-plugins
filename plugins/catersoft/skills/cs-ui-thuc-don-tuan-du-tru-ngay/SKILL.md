@@ -134,3 +134,11 @@ Nhận ra: tiêu đề có công tắc **«Tự lưu»** và nút «Tải lại�
 - Tab **«Báo cáo dự trù ngày»**: mỗi dòng chỉ tiêu thuộc một **hạng mục báo cáo** (doanh thu / chi phí / lợi nhuận) và có cách tính: % cố định theo bếp (nhân công, gas…), tổng, theo hạng mục, lợi nhuận, hoặc **tổng chi phí nguyên liệu theo Nhóm hàng hóa** (có tuỳ chọn «nhóm còn lại»).
 - Vì vậy báo cáo dự trù gom chi phí nguyên liệu **theo Nhóm hàng hóa của nguyên liệu**, không theo món: khai đúng «Nhóm» trên nguyên liệu thì báo cáo mới đúng.
 - Sửa thứ tự, ghi chú ngay trên bảng (tự lưu khi rời ô); ngăn kéo **«Hạng mục báo cáo»** để thêm/sửa hạng mục. Đây là cấu hình dùng chung toàn công ty: hỏi người dùng trước khi sửa.
+
+## 7. MCP Giai đoạn 1 vs Web UI
+
+| Việc | MCP Giai đoạn 1 | Giao diện Web |
+| :--- | :--- | :--- |
+| Thực đơn tuần (`CS-TDT-01`) | `cs_weekly_meal_plan_cells_by_day`, `..._cell_set_dish`, `..._cell_set_servings` | Khởi tạo/Copy tuần, Cập nhật cấu hình, In PDF, Xóa ô |
+| Dự trù ngày (`CS-TDT-02`/`03`) | Đọc công thức `cs_recipe_get`, `cs_recipe_ingredients_list` | Nhập/tải File đặt hàng, Đồng bộ bản lưu công thức |
+| Giá & P&L | Đọc NCC `cs_suppliers_list` | Sửa `CS-TDT-05`, `CS-QTH-01B` |

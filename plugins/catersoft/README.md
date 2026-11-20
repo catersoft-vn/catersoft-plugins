@@ -2,9 +2,10 @@
 
 Plugin chính thức duy nhất của **CaterSoft** dành cho trợ lý AI trên **Claude Code**, **Google Antigravity (AGY)** và **OpenAI Codex**.
 
-- **Cổng hướng dẫn sử dụng:** [https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft](https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft)
+- **Cổng hướng dẫn sử dụng:** [https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft](https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft) (dùng chung cho cả `https://catersoft.app` và `https://app.catersoft.vn`).
+- **Tài liệu kỹ thuật cho AI:** `https://catersoft.app/llms.txt` cùng 5 phân hệ (`/llms-meal.txt`, `/llms-inventory.txt`, `/llms-accounting.txt`, `/llms-hr.txt`, `/llms-settings.txt`).
 - **Máy chủ MCP từ xa:** `https://catersoft.app/mcp` (đăng nhập **OAuth 2.1 + PKCE** trực tiếp bằng tài khoản CaterSoft trên trình duyệt; không cần tạo hay dán API key thủ công).
-- **Phạm vi Giai đoạn 1 (An toàn dữ liệu):** Gồm **6 kỹ năng nhập liệu cơ bản** (*Thực đơn, Định lượng, Dự trù, Phần ăn*) kết hợp **bộ công cụ MCP tra cứu, tạo mới và cập nhật cơ bản** đúng theo công ty và quyền màn hình của tài khoản đang đăng nhập (**không có công cụ xóa dữ liệu**, chưa bao gồm thao tác mua hàng/kế toán chuyên sâu).
+- **Phạm vi v1.1.0:** Gồm **10 kỹ năng nghiệp vụ trọn chuỗi** (*Thực đơn – Dự trù – Phần ăn*, *Mua hàng – Kho bình quân – Kiểm kê*, *Kho FIFO – Đối tác*, *Thu chi – Công nợ – KQKD*, *Nhân sự – Phân quyền*) kết hợp **bộ công cụ MCP Giai đoạn 1** theo đúng công ty và quyền màn hình của tài khoản đang đăng nhập (**không có công cụ xóa dữ liệu**).
 
 ---
 
@@ -20,16 +21,20 @@ Sau khi cài đặt, khi gọi công cụ CaterSoft MCP lần đầu, trình duy
 
 ---
 
-## Danh sách 6 kỹ năng nhập liệu cơ bản (Giai đoạn 1)
+## Danh sách 10 kỹ năng nghiệp vụ (v1.1.0)
 
-| STT | Tên ngắn | Mã kỹ năng | Phạm vi hỗ trợ (MCP cơ bản + Giao diện Web) |
+| STT | Tên ngắn | Mã kỹ năng | Phạm vi hỗ trợ (MCP Giai đoạn 1 + Giao diện Web) |
 | :-: | :--- | :--- | :--- |
-| 1 | Bản đồ chuỗi | `cs-ui-ban-do-thuc-don-du-tru` | Sơ đồ phụ thuộc toàn chuỗi, thứ tự khởi tạo bếp mới, nguyên tắc sử dụng MCP OAuth + Web UI (kèm `QUY-TAC-BAT-BUOC.md`). |
+| 1 | Bản đồ chuỗi | `cs-ui-ban-do-thuc-don-du-tru` | Sơ đồ phụ thuộc toàn chuỗi, thứ tự khởi tạo bếp mới, nguyên tắc MCP OAuth + Web UI (kèm `QUY-TAC-BAT-BUOC.md`). |
 | 2 | Nguyên liệu ĐVT | `cs-ui-nguyen-lieu-dvt` | Tra cứu/khai Đơn vị tính, Nhóm hàng, Nguyên liệu, Đơn vị quy đổi và TLHH sơ chế (%). |
 | 3 | Món ăn định lượng | `cs-ui-mon-an-dinh-luong` | Tra cứu/khai Nhóm món, Cơ cấu món, Món ăn, Ngân hàng thực đơn và Định lượng sống cho từng phần ăn. |
 | 4 | Thiết lập dự trù | `cs-ui-thiet-lap-thuc-don-du-tru` | Tra cứu Ca làm việc, Điểm dự trù và hướng dẫn dựng Thiết lập thực đơn dự trù cho từng bếp. |
 | 5 | Thực đơn tuần | `cs-ui-thuc-don-tuan-du-tru-ngay` | Xếp/cập nhật món Thực đơn tuần, kiểm tra nguyên nhân dự trù ra 0 và đối chiếu Dự trù ngày. |
 | 6 | Phần ăn thực tế | `cs-ui-phan-an-thuc-te` | Tra cứu Nơi phục vụ và cập nhật Số báo / Số thực tế / Đơn giá suất ăn theo ngày và ca. |
+| 7 | Mua hàng & Kho | `cs-ui-mua-hang-kho-kiem-ke` | Lập PR, tổng hợp & tạo/gộp/tách/gửi mail PO, giao nhận nhập kho, xuất bếp, chuyển kho, kiểm kê & khóa kỳ NXT. |
+| 8 | Kho FIFO & Đối tác | `cs-ui-kho-fifo-va-doi-tac` | Ánh xạ đối tác/hàng hóa PO→SO, mua nhận lô NSX/HSD, bán xuất lô FEFO, kiểm kê & khôi phục chứng từ FIFO. |
+| 9 | Thu chi & KQKD | `cs-ui-thu-chi-cong-no-kqkd` | Danh mục thu chi, ĐNTT/tạm ứng/hoàn ứng, sổ quỹ, thu chưa xác định, công nợ KH/NCC, P&L 3 phần & Báo cáo Cơm. |
+| 10 | Nhân sự & Quyền | `cs-ui-nhan-su-va-phan-quyen` | Hồ sơ nhân sự, hợp đồng, chấm công/khóa ngày/tính lương, sơ đồ tổ chức bếp, công ty, phân quyền chi tiết & hỗ trợ. |
 
 ---
 
