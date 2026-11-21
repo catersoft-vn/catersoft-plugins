@@ -97,4 +97,4 @@ Khi công ty bật quy tắc mã nhóm đầy đủ (`requireFullGroupCode`), m�
 | :-: | :--- | :--- | :--- |
 | 1 | Đơn vị tính (`CS-DLC-10`) | `cs_units_list`, `cs_unit_get`, `cs_unit_create`, `cs_unit_update` | Xóa mềm / khôi phục, nhập hàng loạt nếu công ty không mở qua MCP |
 | 2 | Nhóm hàng (`CS-DLC-14`) | `cs_item_groups_list`, `cs_item_group_get`, `cs_item_group_create`, `cs_item_group_update` | Khai Nhóm lớn (`CS-DLC-13`) và Nhóm nhỏ (`CS-DLC-15`) |
-| 3 | Nguyên liệu (`CS-MNL-05`) | `cs_inventory_items_list`, `cs_inventory_item_get`, `cs_inventory_item_create`, `cs_inventory_item_update` | Khai **Đơn vị quy đổi**, TLHH sơ chế (%), nạp Excel nguyên liệu, gộp nguyên liệu trùng, sửa mã theo quy tắc nhóm (`CS-MNL-05-F16`) |
+| 3 | Nguyên liệu (`CS-MNL-05`) | `cs_inventory_items_list`, `cs_inventory_item_get`, `cs_inventory_item_create`, `cs_inventory_item_update` (hỗ trợ `recipeUnitId` & `unitConversions`, tự chặn nếu thiếu quy đổi ĐVT) | Khai TLHH sơ chế nâng cao, nhóm lớn/nhỏ, nạp Excel nguyên liệu, gộp nguyên liệu trùng, sửa mã theo quy tắc nhóm (`CS-MNL-05-F16`) |

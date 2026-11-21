@@ -22,7 +22,7 @@ import { contrastRatio, validateOpenAiSubmissionRules } from './verify-plugins.m
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const EXPECTED_PLUGINS = [
-  { name: 'catersoft', version: '1.1.0', mapSkill: 'cs-ui-ban-do-thuc-don-du-tru', leafCount: 9 },
+  { name: 'catersoft', version: '1.2.0', mapSkill: 'cs-ui-ban-do-thuc-don-du-tru', leafCount: 9 },
 ];
 
 test('isJunkName catches Drive Icon\\r, macOS .DS_Store, and local files', () => {
@@ -113,7 +113,7 @@ test('copyCleanTree dereferences symlinks and filters Icon\\r / .DS_Store', () =
   }
 });
 
-test('built outputs build strictly 1 plugin (catersoft@1.1.0) cleanly, emit remote MCP OAuth configs, pass OpenAI rules, and omit root plugin.json in Codex zip', () => {
+test('built outputs build strictly 1 plugin (catersoft@1.2.0) cleanly, emit remote MCP OAuth configs, pass OpenAI rules, and omit root plugin.json in Codex zip', () => {
   const result = buildAll({ rootDir: REPO_ROOT, quiet: true });
   assert.equal(result.metas.length, 1);
   assert.equal(result.metas[0].name, 'catersoft');
@@ -187,7 +187,7 @@ test('validateOpenAiSubmissionRules rejects oversized displayName, low contrast,
   );
 });
 
-test('parseRepoSlug and runPublish --dry-run emit single release tag catersoft--v1.1.0 and 1 Codex zip', () => {
+test('parseRepoSlug and runPublish --dry-run emit single release tag catersoft--v1.2.0 and 1 Codex zip', () => {
   assert.equal(parseRepoSlug('https://github.com/catersoft-vn/catersoft-plugins.git'), 'catersoft-vn/catersoft-plugins');
   const plan = runPublish({
     rootDir: REPO_ROOT,
@@ -203,6 +203,6 @@ test('parseRepoSlug and runPublish --dry-run emit single release tag catersoft--
     }),
   });
   assert.equal(plan.status, 'dry-run');
-  assert.deepEqual(plan.tagsToPush, ['catersoft--v1.1.0']);
-  assert.deepEqual(plan.releaseAssets, ['dist/codex/catersoft-v1.1.0.zip']);
+  assert.deepEqual(plan.tagsToPush, ['catersoft--v1.2.0']);
+  assert.deepEqual(plan.releaseAssets, ['dist/codex/catersoft-v1.2.0.zip']);
 });

@@ -89,6 +89,6 @@ Trong ngăn kéo Chỉnh sửa kế hoạch sản xuất, trên **cây «Cấu t
 
 | STT | Tác vụ | Có thể dùng MCP Giai đoạn 1 | Cần thao tác trên Giao diện Web |
 | :-: | :--- | :--- | :--- |
-| 1 | Danh mục bếp, ca, điểm | Chỉ đọc ID qua `cs_kitchens_list`, `cs_shifts_list`, `cs_serving_locations_list`, `cs_meal_customer_types_list` | Tạo/sửa Ca làm việc (`CS-DLC-11`), Nhóm ca, Điểm dự trù (`CS-TDT-07`), Nhóm điểm, Quy tắc chọn món, Giá phần ăn |
-| 2 | Khách hàng & Nơi phục vụ | `cs_customers_list/get/create/update` | Khai Nơi phục vụ (`CS-DTP-04`) gắn khách hàng × bếp × đơn giá |
-| 3 | Thiết lập thực đơn dự trù | Chỉ đọc NHTĐ (`cs_recipes_list`) để đối chiếu | Dựng khung **Thiết lập thực đơn dự trù** (`CS-TDT-06`), Copy/Dán giữa các thực đơn/bếp, Áp thiết lập vào tuần, Wizard `CS-TI-01` |
+| 1 | Cơ sở, Bếp, Kho, Ca, Điểm | `cs_facilities_list`, `cs_kitchens_list`, `cs_kitchen_create/update` (Admin+), `cs_warehouses_list`, `cs_warehouse_create/update` (Admin+), `cs_shifts_list/create/update`, `cs_serving_locations_list/create/update`, `cs_meal_customer_types_list/create/update` | Nhóm ca, Nhóm điểm dự trù, Quy tắc chọn món, Giá phần ăn, Xóa mềm / Khôi phục |
+| 2 | Khách hàng | `cs_customers_list/get/create/update` | Xóa mềm / Khôi phục khách hàng |
+| 3 | Thiết lập kế hoạch sản xuất | Chỉ đọc NHTĐ (`cs_recipes_list`) để đối chiếu | Dựng khung **Thiết lập thực đơn dự trù** (`mealPlans`, `CS-TDT-06`), Copy/Dán giữa các thực đơn/bếp, Áp thiết lập vào tuần, Wizard `CS-TI-01` |

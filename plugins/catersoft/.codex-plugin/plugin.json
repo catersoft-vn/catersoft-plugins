@@ -1,6 +1,6 @@
 {
   "name": "catersoft",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Plugin chính thức duy nhất của CaterSoft kết hợp 10 kỹ năng nghiệp vụ trọn chuỗi (Thực đơn & Dự trù, Mua hàng & Kho bình quân, Kho FIFO & Đối tác, Thu chi & Công nợ & KQKD, Nhân sự & Phân quyền) với máy chủ CaterSoft MCP đăng nhập OAuth 2.1 theo từng tài khoản.",
   "author": {
     "name": "CaterSoft",
@@ -56,7 +56,7 @@
     "com.openai": {
       "onboardingSkill": "./skills/cs-ui-ban-do-thuc-don-du-tru/SKILL.md",
       "publication": {
-        "release_notes": "Phát hành CaterSoft v1.1.0: mở rộng lên 10 kỹ năng UI trọn chuỗi (bổ sung Mua hàng/Kho, Kho FIFO, Thu chi/Công nợ/KQKD, Nhân sự/Phân quyền), bổ sung bảng đối chiếu MCP Giai đoạn 1 vs Giao diện Web trên từng kỹ năng và cập nhật luồng đọc DOM đa tab.",
+        "release_notes": "Phát hành CaterSoft v1.2.0: mở rộng bộ công cụ MCP Giai đoạn 1 hỗ trợ tạo/sửa bếp, kho, ca ăn, điểm dự trù, nơi phục vụ và khai ĐVT định lượng / quy đổi đơn vị ngay trên nguyên liệu; giữ nguyên nguyên tắc OAuth 2.1 theo quyền từng tài khoản và tuyệt đối không có công cụ xóa.",
         "translations": {
           "vi-VN": {
             "subtitle": "Nhập liệu & MCP CaterSoft",

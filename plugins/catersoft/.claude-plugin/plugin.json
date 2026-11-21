@@ -1,6 +1,6 @@
 {
   "name": "catersoft",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Plugin chính thức duy nhất của CaterSoft kết hợp 10 kỹ năng nghiệp vụ trọn chuỗi (Thực đơn & Dự trù, Mua hàng & Kho bình quân, Kho FIFO & Đối tác, Thu chi & Công nợ & KQKD, Nhân sự & Phân quyền) với máy chủ CaterSoft MCP đăng nhập OAuth 2.1 theo từng tài khoản.",
   "author": {
     "name": "CaterSoft",
