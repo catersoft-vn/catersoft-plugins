@@ -47,7 +47,7 @@ description: >-
 - Tiêu đề hộp ghi «Chọn Món Ăn — <cơ cấu> (<Thứ> - <ngày>)»: đọc tiêu đề trước khi chọn. Chọn xong hộp **tự sang dòng kế cùng ngày**; «Qua món tiếp theo» bỏ qua dòng mà không ghi; dòng cuối thì hộp đóng. Chỉ sửa một ô: chọn xong đóng hộp bằng dấu X.
 - Ô tìm không phân biệt dấu nên ra cả tên gần giống (khoai mỡ / khoai môn, Me / Mẻ, «X» và «X(2)», tên là phần đầu của tên khác): **so đủ tên có dấu** trước khi bấm. Món bị món khác đứng đầu thì gõ thêm từ; cụm dài ra «Trống» thì thử một từ đặc trưng. Trong hộp này **bấm chuột vào đúng dòng**, không dựa vào Enter.
 - **Cơ cấu món dùng chung giữa nhiều điểm dự trù cùng ca: chọn món là ghi cho mọi điểm đó**, kể cả khi đang lọc một điểm. Muốn món khác nhau thì phải tách cơ cấu món riêng trong thiết lập. Nhập xong, xem lại từng điểm.
-- **Điểm chưa có món:** thêm điểm vào thiết lập sau khi đã xếp món thì điểm đó còn trống ở các dòng đã có món. Khi ô trống đó **có phần ăn** (ô 0 phần không báo, owner 04/11/2026), trang Thực đơn tuần và Dự trù ngày (Tổng hợp) hiện khung vàng «<điểm> chưa có món ở N ô» (ngày đã qua chỉ hiện với người có quyền sửa quá khứ); ô thiếu trên Thực đơn tuần có dấu ⚠ đỏ. Bấm **«Đồng bộ món»** → xem danh sách → **«Đồng bộ»** từng dòng hoặc **«Đồng bộ tất cả»**. Chỉ ghi đúng ô trống, không đổi món của điểm khác. Khi các điểm đang khác món và hoà nhau, trang không tự chọn: chọn món ở ô đó.
+- **Điểm chưa có món:** thêm điểm vào thiết lập sau khi đã xếp món thì điểm đó còn trống ở các dòng đã có món. Khi ô trống đó **có phần ăn** (ô 0 phần không báo), trang Thực đơn tuần và Dự trù ngày (Tổng hợp) hiện khung vàng «<điểm> chưa có món ở N ô» (ngày đã qua chỉ hiện với người có quyền sửa quá khứ); ô thiếu trên Thực đơn tuần có dấu ⚠ đỏ. Bấm **«Đồng bộ món»** → xem danh sách → **«Đồng bộ»** từng dòng hoặc **«Đồng bộ tất cả»**. Chỉ ghi đúng ô trống, không đổi món của điểm khác. Khi các điểm đang khác món và hoà nhau, trang không tự chọn: chọn món ở ô đó.
 - Trang chặn trùng món trong một ca («…đã có trong ca này tại …»). Muốn chuyển món giữa hai dòng, đổi dòng nguồn trước.
 - Món có đuôi **«(chưa có công thức)»** là món đã có nhưng chưa có định lượng trong NHTĐ của điểm: vẫn chọn được, **đừng tạo món trùng**; bổ sung định lượng (skill `cs-ui-mon-an-dinh-luong`).
 - Trong hộp «Chọn Món Ăn» còn có nút **«Sửa»** (sửa món đang chọn) và phần **Công thức** để xem/sửa định lượng của món trong NHTĐ của điểm ngay tại chỗ (thêm nguyên liệu, sửa định lượng, giá dự trù) → **Shift+Enter** lưu công thức. Đây là sửa NHTĐ dùng chung, không riêng tuần này.
@@ -137,6 +137,6 @@ Nhận ra: tiêu đề có công tắc **«Tự lưu»** và nút «Tải lại�
 
 | Việc | MCP Giai đoạn 1 | Giao diện Web |
 | :--- | :--- | :--- |
-| Thực đơn tuần (`CS-TDT-01`) | `cs_weekly_meal_plan_cells_by_day`, `..._cell_set_dish`, `..._cell_set_servings` | Khởi tạo/Copy tuần, Cập nhật cấu hình, In PDF, Xóa ô |
-| Dự trù ngày (`CS-TDT-02`/`03`) | Đọc công thức `cs_recipe_get`, `cs_recipe_ingredients_list` | Nhập/tải File đặt hàng, Đồng bộ bản lưu công thức |
+| Thực đơn tuần (`CS-TDT-01`) | `cs_meal_plans_list`, `cs_weekly_meal_plans_list`, `cs_weekly_meal_plan_cells_by_day`, `cs_weekly_meal_plan_cell_set_dish`, `cs_weekly_meal_plan_cell_set_servings` | Khởi tạo/Copy tuần, Cập nhật cấu hình, In PDF, Xóa ô |
+| Dự trù ngày (`CS-TDT-02`/`03`) | Xem nguyên liệu tổng hợp ngày `cs_meal_forecast_daily`; đọc công thức `cs_recipe_get`, `cs_recipe_ingredients_list` | Nhập/tải File đặt hàng, Đồng bộ bản lưu công thức |
 | Giá & P&L | Đọc NCC `cs_suppliers_list` | Sửa `CS-TDT-05`, `CS-QTH-01B` |

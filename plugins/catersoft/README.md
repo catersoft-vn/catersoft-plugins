@@ -3,9 +3,9 @@
 Plugin chính thức duy nhất của **CaterSoft** dành cho trợ lý AI trên **Claude Code**, **Google Antigravity (AGY)** và **OpenAI Codex**.
 
 - **Cổng hướng dẫn sử dụng:** [https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft](https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft) (dùng chung cho cả `https://catersoft.app` và `https://app.catersoft.vn`).
-- **Tài liệu kỹ thuật cho AI:** `https://catersoft.app/llms.txt` cùng 5 phân hệ (`/llms-meal.txt`, `/llms-inventory.txt`, `/llms-accounting.txt`, `/llms-hr.txt`, `/llms-settings.txt`).
+- **Tài liệu kỹ thuật cho AI:** `https://catersoft.app/llms.txt` cùng 5 phân hệ (`/llms-meal.txt`, `/llms-inventory.txt`, `/llms-accounting.txt`, `/llms-hr.txt`, `/llms-settings.txt`) và chỉ mục `/llms-routes.json`.
 - **Máy chủ MCP từ xa:** `https://catersoft.app/mcp` (đăng nhập **OAuth 2.1 + PKCE** trực tiếp bằng tài khoản CaterSoft trên trình duyệt; không cần tạo hay dán API key thủ công).
-- **Phạm vi v1.2.0:** Gồm **10 kỹ năng nghiệp vụ trọn chuỗi** (*Thực đơn – Dự trù – Phần ăn*, *Mua hàng – Kho bình quân – Kiểm kê*, *Kho FIFO – Đối tác*, *Thu chi – Công nợ – KQKD*, *Nhân sự – Phân quyền*) kết hợp **bộ công cụ MCP Giai đoạn 1** theo đúng công ty và quyền màn hình của tài khoản đang đăng nhập (bao gồm tạo/sửa bếp, kho, ca ăn, điểm dự trù, nơi phục vụ, quy đổi ĐVT trên nguyên liệu; **không có công cụ xóa dữ liệu**).
+- **Phạm vi v1.2.0:** Gồm **10 kỹ năng nghiệp vụ trọn chuỗi** (*Thực đơn – Dự trù – Phần ăn*, *Mua hàng – Kho bình quân – Kiểm kê*, *Kho FIFO – Đối tác*, *Thu chi – Công nợ – KQKD*, *Nhân sự – Phân quyền*) kết hợp **80 công cụ MCP Giai đoạn 1** theo đúng công ty và quyền màn hình của tài khoản đang đăng nhập (bao gồm loại bếp, kế hoạch sản xuất chỉ đọc, danh sách thực đơn tuần, dự trù nguyên liệu ngày, chi tiết PO, tạo/sửa bếp, kho, ca ăn, điểm dự trù, nơi phục vụ, quy đổi ĐVT trên nguyên liệu; **không có công cụ xóa dữ liệu**).
 
 ---
 

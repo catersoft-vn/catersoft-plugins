@@ -167,9 +167,18 @@ test('built outputs build strictly 1 plugin (catersoft@1.2.0) cleanly, emit remo
       if (!dirEntry.isDirectory() || dirEntry.name === spec.mapSkill) continue;
       const md = fs.readFileSync(path.join(codexDir, 'skills', dirEntry.name, 'SKILL.md'), 'utf8');
       assert.ok(md.includes(`../${spec.mapSkill}/QUY-TAC-BAT-BUOC.md`));
+      const agyMd = fs.readFileSync(path.join(distAgyDir, 'skills', dirEntry.name, 'SKILL.md'), 'utf8');
+      assert.equal(agyMd.includes('QUY-TAC-BAT-BUOC.md'), false, `AGY ${dirEntry.name} must rely on rules/AGENTS.md`);
       injectedLeafCount += 1;
     }
     assert.equal(injectedLeafCount, spec.leafCount);
+    const rulesSrc = stripFrontmatter(
+      fs.readFileSync(path.join(REPO_ROOT, 'src', spec.name, 'rules', 'AGENTS.md'), 'utf8'),
+    ).trimEnd();
+    const ruleMirror = fs
+      .readFileSync(path.join(REPO_ROOT, 'src', spec.name, 'skills', spec.mapSkill, 'QUY-TAC-BAT-BUOC.md'), 'utf8')
+      .trimEnd();
+    assert.equal(ruleMirror, rulesSrc);
   }
 });
 

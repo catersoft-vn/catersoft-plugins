@@ -1,59 +1,57 @@
-# CaterSoft Plugin — Trợ lý AI & MCP Chính thức (OAuth 2.1)
+# CaterSoft — Plugin Chính thức (Kỹ năng Nhập liệu & MCP OAuth 2.1)
 
-Kho phân phối chính thức **plugin CaterSoft duy nhất** (`catersoft`) dành cho trợ lý AI trên cả 3 nền tảng: **Claude Code**, **Google Antigravity (AGY)** và **OpenAI Codex**.
+Plugin chính thức duy nhất của **CaterSoft** dành cho trợ lý AI trên **Claude Code**, **Google Antigravity (AGY)** và **OpenAI Codex**.
 
-> **Nguyên tắc đăng nhập & an toàn (OAuth 2.1 theo từng tài khoản):** Khi bật máy chủ MCP `https://catersoft.app/mcp`, công cụ AI sẽ mở trình duyệt để bạn đăng nhập trực tiếp bằng tài khoản CaterSoft hiện có. Phiên MCP kế thừa đúng vai trò, công ty và phân quyền từng màn hình của tài khoản đó (không cần cấu hình API key tĩnh; không cung cấp công cụ xóa hay hủy dữ liệu).
+- **Cổng hướng dẫn sử dụng:** [https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft](https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft) (dùng chung cho cả `https://catersoft.app` và `https://app.catersoft.vn`).
+- **Tài liệu kỹ thuật cho AI:** `https://catersoft.app/llms.txt` cùng 5 phân hệ (`/llms-meal.txt`, `/llms-inventory.txt`, `/llms-accounting.txt`, `/llms-hr.txt`, `/llms-settings.txt`) và chỉ mục `/llms-routes.json`.
+- **Máy chủ MCP từ xa:** `https://catersoft.app/mcp` (đăng nhập **OAuth 2.1 + PKCE** trực tiếp bằng tài khoản CaterSoft trên trình duyệt; không cần tạo hay dán API key thủ công).
+- **Phạm vi v1.2.0:** Gồm **10 kỹ năng nghiệp vụ trọn chuỗi** (*Thực đơn – Dự trù – Phần ăn*, *Mua hàng – Kho bình quân – Kiểm kê*, *Kho FIFO – Đối tác*, *Thu chi – Công nợ – KQKD*, *Nhân sự – Phân quyền*) kết hợp **80 công cụ MCP Giai đoạn 1** theo đúng công ty và quyền màn hình của tài khoản đang đăng nhập (bao gồm loại bếp, kế hoạch sản xuất chỉ đọc, danh sách thực đơn tuần, dự trù nguyên liệu ngày, chi tiết PO, tạo/sửa bếp, kho, ca ăn, điểm dự trù, nơi phục vụ, quy đổi ĐVT trên nguyên liệu; **không có công cụ xóa dữ liệu**).
 
-## Thành phần của Plugin `catersoft` (`v1.0.0`)
+---
 
-### 1. Bộ 6 kỹ năng nhập liệu cơ bản (Giai đoạn 1 — Thực đơn, Dự trù & Phần ăn)
+## Cài đặt nhanh trên 3 nền tảng
 
-| STT | Tên ngắn | Mã kỹ năng | Phạm vi |
+| STT | Tên ngắn | Nền tảng | Lệnh cài từ Marketplace GitHub |
 | :-: | :--- | :--- | :--- |
-| 1 | Bản đồ thứ tự nhập liệu | `cs-ui-ban-do-thuc-don-du-tru` | Chẩn đoán, hướng dẫn thứ tự phụ thuộc và điều phối |
-| 2 | Nguyên liệu & Đơn vị tính | `cs-ui-nguyen-lieu-dvt` | Đơn vị tính, nhóm nguyên liệu và mã hàng nền |
-| 3 | Món ăn & Định lượng | `cs-ui-mon-an-dinh-luong` | Món ăn và định lượng nguyên liệu sống theo Gam |
-| 4 | Thiết lập thực đơn | `cs-ui-thiet-lap-thuc-don-du-tru` | Đối tượng phục vụ, bữa/ca và công thức khung |
-| 5 | Thực đơn tuần & Dự trù | `cs-ui-thuc-don-tuan-du-tru-ngay` | Xếp món trên lưới tuần và bảng dự trù ngày |
-| 6 | Phần ăn thực tế | `cs-ui-phan-an-thuc-te` | Cập nhật phần ăn thực tế và quy tắc tính phần thanh toán |
+| 1 | Claude Code | Claude Code CLI / Desktop | `claude plugin marketplace add catersoft-vn/catersoft-plugins` rồi `claude plugin install catersoft@catersoft-plugins` |
+| 2 | Antigravity AGY | Google Antigravity | `agy plugin install https://github.com/catersoft-vn/catersoft-plugins/tree/main/plugins/catersoft` |
+| 3 | OpenAI Codex | Codex CLI / App | `codex plugin marketplace add catersoft-vn/catersoft-plugins` rồi bật `catersoft` trong `/plugins` |
 
-### 2. Máy chủ CaterSoft MCP (`https://catersoft.app/mcp`)
-
-- Xác thực **OAuth 2.1 + PKCE (`S256`)** qua `/auth/mcp-authorize` theo từng tài khoản CaterSoft đăng nhập.
-- Giai đoạn 1 chỉ cấp **công cụ tra cứu, tạo mới và cập nhật cơ bản** (danh mục đơn vị tính, nguyên liệu, món ăn, định lượng, thực đơn tuần/dự trù, phần ăn thực tế, khách hàng/nhà cung cấp/bếp cơ sở đúng quyền tài khoản). Tuyệt đối **không có công cụ xóa/xóa vĩnh viễn** qua MCP.
+Sau khi cài đặt, khi gọi công cụ CaterSoft MCP lần đầu, trình duyệt sẽ tự mở màn hình **Cấp quyền Trợ lý AI (MCP)** tại CaterSoft để bạn đăng nhập, chọn đúng công ty đang làm việc và xác nhận. Token ngắn hạn sẽ được cấp riêng cho chính tài khoản đó và tự động làm mới an toàn.
 
 ---
 
-## Cài đặt nhanh theo từng công cụ AI
+## Danh sách 10 kỹ năng nghiệp vụ (v1.2.0)
 
-### 1. Claude Code
-```bash
-/plugin marketplace add catersoft-vn/catersoft-plugins
-/plugin install catersoft@catersoft-plugins
-```
-
-### 2. Google Antigravity (AGY)
-```bash
-agy plugin install https://github.com/catersoft-vn/catersoft-plugins/tree/main/plugins/catersoft
-```
-
-### 3. OpenAI Codex (CLI / Desktop App)
-```bash
-codex plugin marketplace add catersoft-vn/catersoft-plugins
-```
-Sau đó mở `/plugins` trong Codex CLI hoặc giao diện Codex Desktop và bật plugin `catersoft`, rồi nhấn kết nối MCP để đăng nhập tài khoản CaterSoft.
+| STT | Tên ngắn | Mã kỹ năng | Phạm vi hỗ trợ (MCP Giai đoạn 1 + Giao diện Web) |
+| :-: | :--- | :--- | :--- |
+| 1 | Bản đồ chuỗi | `cs-ui-ban-do-thuc-don-du-tru` | Sơ đồ phụ thuộc toàn chuỗi, thứ tự khởi tạo bếp mới, nguyên tắc MCP OAuth + Web UI (kèm `QUY-TAC-BAT-BUOC.md`). |
+| 2 | Nguyên liệu ĐVT | `cs-ui-nguyen-lieu-dvt` | Tra cứu/khai Đơn vị tính, Nhóm hàng, Nguyên liệu, Đơn vị quy đổi và TLHH sơ chế (%). |
+| 3 | Món ăn định lượng | `cs-ui-mon-an-dinh-luong` | Tra cứu/khai Nhóm món, Cơ cấu món, Món ăn, Ngân hàng thực đơn và Định lượng sống cho từng phần ăn. |
+| 4 | Thiết lập dự trù | `cs-ui-thiet-lap-thuc-don-du-tru` | Tra cứu Ca làm việc, Điểm dự trù và hướng dẫn dựng Thiết lập thực đơn dự trù cho từng bếp. |
+| 5 | Thực đơn tuần | `cs-ui-thuc-don-tuan-du-tru-ngay` | Xếp/cập nhật món Thực đơn tuần, kiểm tra nguyên nhân dự trù ra 0 và đối chiếu Dự trù ngày. |
+| 6 | Phần ăn thực tế | `cs-ui-phan-an-thuc-te` | Tra cứu Nơi phục vụ và cập nhật Số báo / Số thực tế / Đơn giá suất ăn theo ngày và ca. |
+| 7 | Mua hàng & Kho | `cs-ui-mua-hang-kho-kiem-ke` | Lập PR, tổng hợp & tạo/gộp/tách/gửi mail PO, giao nhận nhập kho, xuất bếp, chuyển kho, kiểm kê & khóa kỳ NXT. |
+| 8 | Kho FIFO & Đối tác | `cs-ui-kho-fifo-va-doi-tac` | Ánh xạ đối tác/hàng hóa PO→SO, mua nhận lô NSX/HSD, bán xuất lô FEFO, kiểm kê & khôi phục chứng từ FIFO. |
+| 9 | Thu chi & KQKD | `cs-ui-thu-chi-cong-no-kqkd` | Danh mục thu chi, ĐNTT/tạm ứng/hoàn ứng, sổ quỹ, thu chưa xác định, công nợ KH/NCC, P&L 3 phần & Báo cáo Cơm. |
+| 10 | Nhân sự & Quyền | `cs-ui-nhan-su-va-phan-quyen` | Hồ sơ nhân sự, hợp đồng, chấm công/khóa ngày/tính lương, sơ đồ tổ chức bếp, công ty, phân quyền chi tiết & hỗ trợ. |
 
 ---
 
-## Kiến trúc 1 Nguồn → 3 Đích & Kiểm thử cục bộ
+## 4 câu yêu cầu mẫu để bắt đầu ngay
+
+1. *"Kiểm tra tài khoản CaterSoft MCP hiện tại (`cs_tenant_whoami`) và chỉ tôi thứ tự nhập dữ liệu cho bếp mới."*
+2. *"Khai đơn vị tính Kg, Gam và nguyên liệu Thịt heo có tỷ lệ hao hụt sơ chế 5%."*
+3. *"Tạo món Thịt kho tàu, gán vào ngân hàng thực đơn chuẩn và nhập định lượng sống 120 Gam."*
+4. *"Kiểm tra thực đơn tuần này của bếp và cập nhật số phần ăn thực tế ngày hôm nay."*
+
+---
+
+## Kiến trúc 1 Nguồn → 3 Đích & Kiểm thử cục bộ (`v1.2.0` · 10 kỹ năng)
 
 - Nguồn gốc duy nhất nằm tại `src/catersoft/` (`plugin.meta.json`, `assets/logo.svg`, `rules/AGENTS.md`, `skills/*/SKILL.md`).
-- Các lệnh kiểm tra và xuất bản:
-  - `npm run build`: đồng bộ ra `plugins/catersoft/`, `.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json` và `dist/{claude,agy,codex}/` kèm file `.zip` sạch chuẩn OpenAI Portal.
+- Tệp `src/catersoft/skills/cs-ui-ban-do-thuc-don-du-tru/QUY-TAC-BAT-BUOC.md` và tệp `README.md` gốc này được tự đồng bộ từ `src/catersoft/` khi chạy `npm run build`.
+- Lệnh kiểm tra và đóng gói:
+  - `npm run build`: đồng bộ ra `plugins/catersoft/`, `.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json` và `dist/{claude,agy,codex}/` kèm file `.zip` chuẩn OpenAI Portal.
   - `npm test`: chạy bộ unit test Node (`node --test`).
-  - `npm run verify`: quét vệ sinh/bảo mật, kiểm tra `validateOpenAiSubmissionRules` và chạy kiểm thử xác thực chặt chẽ trên cả 3 CLI (`claude --strict`, `agy --strict --json`, `codex plugin marketplace/add`).
-
-## Tài liệu hướng dẫn khách hàng
-
-- Cổng hướng dẫn cài đặt & sử dụng: <https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft>
-- Bộ hướng dẫn nghiệp vụ CaterSoft: <https://guide.catersoft.vn>
+  - `npm run verify`: quét vệ sinh/bảo mật, kiểm tra single-source/wildcard, kiểm tra `validateOpenAiSubmissionRules` và chạy CLI kiểm thử trên cả 3 nền tảng (`claude`, `agy`, `codex`).

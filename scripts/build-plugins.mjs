@@ -283,7 +283,11 @@ function buildCodexMarketplaceCatalog(metas, pathPrefix) {
 function copyCommonPluginContent(
   srcPluginDir,
   dstPluginDir,
-  { includeRules = true, mapSkill = 'cs-ui-ban-do-thuc-don-du-tru' } = {},
+  {
+    includeRules = true,
+    injectRuleNoticeInSkills = true,
+    mapSkill = 'cs-ui-ban-do-thuc-don-du-tru',
+  } = {},
 ) {
   fs.mkdirSync(dstPluginDir, { recursive: true });
   const readmeSrc = path.join(srcPluginDir, 'README.md');
@@ -294,10 +298,65 @@ function copyCommonPluginContent(
       'utf8',
     );
   }
-  copyCleanTree(path.join(srcPluginDir, 'assets'), path.join(dstPluginDir, 'assets'), { mapSkill });
-  copyCleanTree(path.join(srcPluginDir, 'skills'), path.join(dstPluginDir, 'skills'), { mapSkill });
+  copyCleanTree(path.join(srcPluginDir, 'assets'), path.join(dstPluginDir, 'assets'), {
+    injectRuleNoticeInSkills,
+    mapSkill,
+  });
+  copyCleanTree(path.join(srcPluginDir, 'skills'), path.join(dstPluginDir, 'skills'), {
+    injectRuleNoticeInSkills,
+    mapSkill,
+  });
   if (includeRules) {
-    copyCleanTree(path.join(srcPluginDir, 'rules'), path.join(dstPluginDir, 'rules'), { mapSkill });
+    copyCleanTree(path.join(srcPluginDir, 'rules'), path.join(dstPluginDir, 'rules'), {
+      injectRuleNoticeInSkills,
+      mapSkill,
+    });
+  }
+}
+
+/** Đồng bộ một nguồn duy nhất rules/AGENTS.md -> skills/<mapSkill>/QUY-TAC-BAT-BUOC.md. */
+export function syncMandatoryRuleFromAgents(srcPluginDir, mapSkill = 'cs-ui-ban-do-thuc-don-du-tru') {
+  const agentsPath = path.join(srcPluginDir, 'rules', 'AGENTS.md');
+  const targetSkillDir = path.join(srcPluginDir, 'skills', mapSkill);
+  if (!fs.existsSync(agentsPath) || !fs.existsSync(targetSkillDir)) return;
+  const canonical = `${stripFrontmatter(fs.readFileSync(agentsPath, 'utf8')).trimEnd()}\n`;
+  const ruleTarget = path.join(targetSkillDir, 'QUY-TAC-BAT-BUOC.md');
+  const current = fs.existsSync(ruleTarget) ? fs.readFileSync(ruleTarget, 'utf8').replace(/\r\n/g, '\n') : null;
+  if (current !== canonical) {
+    fs.writeFileSync(ruleTarget, canonical, 'utf8');
+  }
+}
+
+/** Tự đồng bộ README.md gốc theo đúng version, danh sách skill và cấu trúc build từ src/catersoft/. */
+function syncRootReadmeIfPresent(rootDir, metas) {
+  const primary = metas.find((m) => m.name === 'catersoft');
+  if (!primary) return;
+  const srcReadmePath = path.join(rootDir, 'src', primary.name, 'README.md');
+  if (!fs.existsSync(srcReadmePath)) return;
+  const srcReadme = fs.readFileSync(srcReadmePath, 'utf8').replace(/\r\n/g, '\n').trimEnd();
+  const skillsDir = path.join(rootDir, 'src', primary.name, 'skills');
+  const skillCount = fs.existsSync(skillsDir)
+    ? fs.readdirSync(skillsDir, { withFileTypes: true }).filter((d) => d.isDirectory() && !d.name.startsWith('.')).length
+    : 0;
+  const generated = [
+    srcReadme,
+    '',
+    '---',
+    '',
+    `## Kiến trúc 1 Nguồn → 3 Đích & Kiểm thử cục bộ (\`v${primary.version}\` · ${skillCount} kỹ năng)`,
+    '',
+    '- Nguồn gốc duy nhất nằm tại `src/catersoft/` (`plugin.meta.json`, `assets/logo.svg`, `rules/AGENTS.md`, `skills/*/SKILL.md`).',
+    '- Tệp `src/catersoft/skills/cs-ui-ban-do-thuc-don-du-tru/QUY-TAC-BAT-BUOC.md` và tệp `README.md` gốc này được tự đồng bộ từ `src/catersoft/` khi chạy `npm run build`.',
+    '- Lệnh kiểm tra và đóng gói:',
+    '  - `npm run build`: đồng bộ ra `plugins/catersoft/`, `.claude-plugin/marketplace.json`, `.agents/plugins/marketplace.json` và `dist/{claude,agy,codex}/` kèm file `.zip` chuẩn OpenAI Portal.',
+    '  - `npm test`: chạy bộ unit test Node (`node --test`).',
+    '  - `npm run verify`: quét vệ sinh/bảo mật, kiểm tra single-source/wildcard, kiểm tra `validateOpenAiSubmissionRules` và chạy CLI kiểm thử trên cả 3 nền tảng (`claude`, `agy`, `codex`).',
+    '',
+  ].join('\n');
+  const rootReadmePath = path.join(rootDir, 'README.md');
+  const currentRoot = fs.existsSync(rootReadmePath) ? fs.readFileSync(rootReadmePath, 'utf8').replace(/\r\n/g, '\n') : null;
+  if (currentRoot !== generated) {
+    fs.writeFileSync(rootReadmePath, generated, 'utf8');
   }
 }
 
@@ -330,6 +389,7 @@ export function buildAll({ rootDir, quiet = false, skipZip = false } = {}) {
     const srcPluginDir = path.join(srcRoot, dirName);
     const meta = JSON.parse(fs.readFileSync(path.join(srcPluginDir, 'plugin.meta.json'), 'utf8'));
     const mapSkill = meta.mapSkill || 'cs-ui-ban-do-thuc-don-du-tru';
+    syncMandatoryRuleFromAgents(srcPluginDir, mapSkill);
     metas.push(meta);
 
     const mcpConfigs = buildMcpConfigs(meta);
@@ -363,9 +423,13 @@ export function buildAll({ rootDir, quiet = false, skipZip = false } = {}) {
     copyCommonPluginContent(srcPluginDir, distClaudePluginDir, { includeRules: false, mapSkill });
     writeJson(path.join(distClaudePluginDir, '.claude-plugin', 'plugin.json'), distClaudeManifest);
 
-    // 3. Standalone dist/agy target
+    // 3. Standalone dist/agy target (AGY nạp rules/AGENTS.md trực tiếp, không cần chèn thêm callout trùng vào từng SKILL.md)
     const distAgyPluginDir = path.join(distRoot, 'agy', meta.name);
-    copyCommonPluginContent(srcPluginDir, distAgyPluginDir, { includeRules: true, mapSkill });
+    copyCommonPluginContent(srcPluginDir, distAgyPluginDir, {
+      includeRules: true,
+      injectRuleNoticeInSkills: false,
+      mapSkill,
+    });
     writeJson(path.join(distAgyPluginDir, 'plugin.json'), agyManifest);
     if (mcpConfigs) {
       writeJson(path.join(distAgyPluginDir, 'mcp_config.json'), mcpConfigs.agyMcpConfig);
@@ -400,6 +464,7 @@ export function buildAll({ rootDir, quiet = false, skipZip = false } = {}) {
     path.join(codexRootMetaDir, 'plugins', 'marketplace.json'),
     buildCodexMarketplaceCatalog(metas, './plugins'),
   );
+  syncRootReadmeIfPresent(rootDir, metas);
 
   if (!quiet) {
     console.log(

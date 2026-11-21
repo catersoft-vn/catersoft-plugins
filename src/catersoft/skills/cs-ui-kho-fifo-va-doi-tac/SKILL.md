@@ -12,7 +12,7 @@ description: >-
 
 | STT | Tác vụ | Được phép qua MCP Giai đoạn 1 | Bắt buộc thao tác trên Giao diện Web |
 | :-: | :--- | :--- | :--- |
-| 1 | Kho & Nhà sản xuất / Đối tác | Chỉ đọc `cs_warehouses_list`, quản lý cơ bản `cs_suppliers_*`, `cs_customers_*` | Khai **Nhà sản xuất (FIFO)** (`CS-FIFO-07`), cấu hình ánh xạ đối tác / mặt hàng cho `CS-MH-20` |
+| 1 | Kho & Nhà sản xuất / Đối tác | Chỉ đọc `cs_warehouses_list`, quản lý cơ bản `cs_suppliers_list`, `cs_supplier_get`, `cs_supplier_create`, `cs_supplier_update`, `cs_customers_list`, `cs_customer_get`, `cs_customer_create`, `cs_customer_update` | Khai **Nhà sản xuất (FIFO)** (`CS-FIFO-07`), cấu hình ánh xạ đối tác / mặt hàng cho `CS-MH-20` |
 | 2 | Mua hàng & Nhận lô NSX/HSD | Không có công cụ ghi/nhận lô FIFO | Lập Đề nghị mua (`CS-FIFO-02`), Tạo/QL Đơn mua FIFO (`CS-FIFO-15`, `CS-FIFO-01`), **Bảng kê thu mua** (`CS-FIFO-16`) |
 | 3 | Bán hàng SO & Kiểm kho FIFO | Không có công cụ tạo SO/xuất lô FIFO | Tạo Đơn bán (`CS-FIFO-09`, `CS-FIFO-10`), Tồn lô (`CS-FIFO-05`), Phiếu kho/Chuyển kho/Kiểm kho FIFO |
 

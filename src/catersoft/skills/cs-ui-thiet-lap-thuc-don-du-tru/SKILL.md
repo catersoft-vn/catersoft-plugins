@@ -89,6 +89,6 @@ Trong ngăn kéo Chỉnh sửa kế hoạch sản xuất, trên **cây «Cấu t
 
 | STT | Tác vụ | Có thể dùng MCP Giai đoạn 1 | Cần thao tác trên Giao diện Web |
 | :-: | :--- | :--- | :--- |
-| 1 | Cơ sở, Bếp, Kho, Ca, Điểm | `cs_facilities_list`, `cs_kitchens_list`, `cs_kitchen_create/update` (Admin+), `cs_warehouses_list`, `cs_warehouse_create/update` (Admin+), `cs_shifts_list/create/update`, `cs_serving_locations_list/create/update`, `cs_meal_customer_types_list/create/update` | Nhóm ca, Nhóm điểm dự trù, Quy tắc chọn món, Giá phần ăn, Xóa mềm / Khôi phục |
-| 2 | Khách hàng | `cs_customers_list/get/create/update` | Xóa mềm / Khôi phục khách hàng |
-| 3 | Thiết lập kế hoạch sản xuất | Chỉ đọc NHTĐ (`cs_recipes_list`) để đối chiếu | Dựng khung **Thiết lập thực đơn dự trù** (`mealPlans`, `CS-TDT-06`), Copy/Dán giữa các thực đơn/bếp, Áp thiết lập vào tuần, Wizard `CS-TI-01` |
+| 1 | Cơ sở, Bếp, Kho, Ca, Điểm | `cs_facilities_list`, `cs_kitchen_types_list`, `cs_kitchens_list`, `cs_kitchen_create`, `cs_kitchen_update` (Admin+), `cs_warehouses_list`, `cs_warehouse_create`, `cs_warehouse_update` (Admin+), `cs_shifts_list`, `cs_shift_create`, `cs_shift_update`, `cs_serving_locations_list`, `cs_serving_location_create`, `cs_serving_location_update`, `cs_meal_customer_types_list`, `cs_meal_customer_type_create`, `cs_meal_customer_type_update` | Nhóm ca, Nhóm điểm dự trù, Quy tắc chọn món, Giá phần ăn, Xóa mềm / Khôi phục |
+| 2 | Khách hàng | `cs_customers_list`, `cs_customer_get`, `cs_customer_create`, `cs_customer_update` | Xóa mềm / Khôi phục khách hàng |
+| 3 | Thiết lập kế hoạch sản xuất | Chỉ đọc `cs_meal_plans_list` và NHTĐ (`cs_recipes_list`) để đối chiếu | Dựng khung **Thiết lập thực đơn dự trù** (`mealPlans`, `CS-TDT-06`), Copy/Dán giữa các thực đơn/bếp, Áp thiết lập vào tuần, Wizard `CS-TI-01` |

@@ -64,7 +64,7 @@ description: >-
 - File không có cột ĐVT định lượng → sau khi nạp nguyên liệu mới, khai ĐVT định lượng (và quy đổi nếu chưa nạp) trên từng nguyên liệu.
 - Tỷ lệ hao hụt (khi công ty bật TLHH): trang **Danh mục mặt hàng → Thao tác → «Tải lên TLHH sơ chế»**, hoặc nháy đúp ô TLHH sơ chế trên bảng để sửa tại chỗ rồi lưu.
 
-## 6. Thao tác nâng cao & Dọn dẹp hàng loạt (Menu Thao tác)
+## 5. Thao tác nâng cao & Dọn dẹp hàng loạt (Menu Thao tác)
 
 Trên thanh công cụ Danh sách nguyên liệu (`CS-MNL-05`), menu Popover **«Thao tác»** gom các chức năng xử lý hàng loạt:
 - **Tải lại (`CS-MNL-05-F01`):** Làm mới danh sách và xóa sạch bộ đệm hiển thị.
@@ -74,7 +74,7 @@ Trên thanh công cụ Danh sách nguyên liệu (`CS-MNL-05`), menu Popover **�
 - **Kích hoạt (`CS-MNL-05-F13`) / Vô hiệu hóa hàng loạt (`CS-MNL-05-F14`):** Bật hoặc tắt trạng thái hoạt động nhanh cho nhiều nguyên liệu mà không cần mở từng hộp thoại.
 - **Khôi phục nguyên liệu đã xóa (`CS-MNL-05-F15`):** Khôi phục lại các nguyên liệu từng bị xóa mềm (`isDeleted: true`).
 
-## 7. Kiểm tra & Cập nhật mã theo quy tắc nhóm
+## 6. Kiểm tra & Cập nhật mã theo quy tắc nhóm
 
 Khi công ty bật quy tắc mã nhóm đầy đủ (`requireFullGroupCode`), mã nguyên liệu phải tuân thủ chuẩn cấu trúc:
 - **Cấu trúc mã chuẩn:** `[Mã Nhóm lớn (2)] + [Mã Nhóm (2)] + [Mã Nhóm nhỏ (2)] + [Số thứ tự (4 chữ số)]` (ví dụ `TPTHB010001`).
@@ -85,13 +85,13 @@ Khi công ty bật quy tắc mã nhóm đầy đủ (`requireFullGroupCode`), m�
   - Nguyên liệu thiếu mã nhóm sẽ được đánh dấu bị chặn (blocked) kèm lý do (cần khai mã nhóm trước).
   - Để đảm bảo an toàn tuyệt đối, hệ thống yêu cầu gõ chính xác cụm từ **`XAC NHAN`** trước khi nút «Xác nhận» được kích hoạt để tiến hành ghi mã mới hàng loạt.
 
-## 8. Kiểm tra sau khi khai
+## 7. Kiểm tra sau khi khai
 
 - Mở lại nguyên liệu: Đơn vị cơ bản, ĐVT định lượng và bảng quy đổi đúng như ý.
 - Khai thử một dòng định lượng (skill `cs-ui-mon-an-dinh-luong`): ô ĐVT phải có đơn vị định lượng mong muốn.
 - Trên Dự trù ngày, tải file đặt hàng: không còn cảnh báo thiếu quy đổi, số lượng ra đúng đơn vị kho.
 
-## 9. Phạm vi MCP Giai đoạn 1 vs Giao diện Web
+## 8. Phạm vi MCP Giai đoạn 1 vs Giao diện Web
 
 | STT | Tác vụ | Có thể dùng MCP Giai đoạn 1 | Cần thao tác trên Giao diện Web |
 | :-: | :--- | :--- | :--- |

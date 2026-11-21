@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { isJunkName } from './build-plugins.mjs';
+import { isJunkName, stripFrontmatter } from './build-plugins.mjs';
 
 const BASE_SENSITIVE_PATTERNS = [
   { label: 'local home path', regex: /\/Users\// },
@@ -14,6 +14,11 @@ const BASE_SENSITIVE_PATTERNS = [
   { label: 'github token', regex: /gho_/ },
   { label: 'google api key', regex: /AIza/ },
   { label: 'openai/anthropic api key', regex: /\bsk-/ },
+];
+
+const DOC_HYGIENE_PATTERNS = [
+  { label: 'internal owner note', regex: /\(\s*owner\s+\d|,\s*owner\s+\d/i },
+  { label: 'MCP tool wildcard', regex: /\bcs_[a-z0-9_]*\*|\*_(?:list|get|create|update)\b/ },
 ];
 
 const OPENAI_ALLOWED_CATEGORIES = new Set([
@@ -390,6 +395,13 @@ function scanTreeForJunkAndSecrets(rootDir, relativeRoots, sensitivePatterns) {
           errors.push(`Sensitive pattern (${label}) matched in ${relPath}`);
         }
       }
+      if (entry.name.endsWith('.md')) {
+        for (const { label, regex } of DOC_HYGIENE_PATTERNS) {
+          if (regex.test(content)) {
+            errors.push(`Doc hygiene (${label}) matched in ${relPath}`);
+          }
+        }
+      }
     }
   }
 
@@ -454,6 +466,38 @@ export function verifyAll({ rootDir, quiet = false } = {}) {
     .filter((entry) => entry.isDirectory() && fs.existsSync(path.join(rootDir, 'src', entry.name, 'plugin.meta.json')))
     .map((entry) => entry.name)
     .sort();
+
+  const rootReadme = fs.readFileSync(path.join(rootDir, 'README.md'), 'utf8');
+  for (const dirName of pluginDirs) {
+    const srcPluginDir = path.join(rootDir, 'src', dirName);
+    const meta = JSON.parse(fs.readFileSync(path.join(srcPluginDir, 'plugin.meta.json'), 'utf8'));
+    const mapSkill = meta.mapSkill || 'cs-ui-ban-do-thuc-don-du-tru';
+    const agentsPath = path.join(srcPluginDir, 'rules', 'AGENTS.md');
+    const ruleMirrorPath = path.join(srcPluginDir, 'skills', mapSkill, 'QUY-TAC-BAT-BUOC.md');
+    if (fs.existsSync(agentsPath) && fs.existsSync(ruleMirrorPath)) {
+      const expectedRule = `${stripFrontmatter(fs.readFileSync(agentsPath, 'utf8')).trimEnd()}\n`;
+      const actualRule = fs.readFileSync(ruleMirrorPath, 'utf8').replace(/\r\n/g, '\n');
+      if (actualRule !== expectedRule) {
+        throw new Error(`Single-source drift between rules/AGENTS.md and skills/${mapSkill}/QUY-TAC-BAT-BUOC.md`);
+      }
+    }
+    const agySkillsDir = path.join(rootDir, 'dist', 'agy', meta.name, 'skills');
+    for (const sk of fs.readdirSync(agySkillsDir, { withFileTypes: true })) {
+      if (!sk.isDirectory() || sk.name === mapSkill) continue;
+      const agyMd = fs.readFileSync(path.join(agySkillsDir, sk.name, 'SKILL.md'), 'utf8');
+      if (agyMd.includes('QUY-TAC-BAT-BUOC.md')) {
+        throw new Error(`AGY leaf skill ${sk.name} must not inject duplicate QUY-TAC-BAT-BUOC.md banner`);
+      }
+    }
+    if (!rootReadme.includes(`v${meta.version}`)) {
+      throw new Error(`Root README.md is out of sync (missing v${meta.version})`);
+    }
+    for (const sk of fs.readdirSync(path.join(srcPluginDir, 'skills'), { withFileTypes: true })) {
+      if (sk.isDirectory() && !sk.name.startsWith('.') && !rootReadme.includes(sk.name)) {
+        throw new Error(`Root README.md missing skill ${sk.name}`);
+      }
+    }
+  }
 
   const { claudeCli, agyCli, codexCli } = resolveDefaultClis();
 
