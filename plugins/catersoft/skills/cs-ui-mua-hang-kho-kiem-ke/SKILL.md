@@ -15,7 +15,7 @@ description: >-
 
 | STT | Tác vụ | Được phép qua MCP Giai đoạn 1 | Bắt buộc thao tác trên Giao diện Web |
 | :-: | :--- | :--- | :--- |
-| 1 | Kho & Nhà cung cấp | Đọc `cs_warehouses_list`, tạo/sửa NCC `cs_suppliers_list/get/create/update` | Khai Bảng giá NCC theo tháng (`CS-MH-13`), Tên bảng giá NCC |
+| 1 | Kho & Nhà cung cấp | Đọc `cs_warehouses_list`, quản lý NCC `cs_suppliers_list`, `cs_supplier_get`, `cs_supplier_create`, `cs_supplier_update` | Khai Bảng giá NCC theo tháng (`CS-MH-13`), Tên bảng giá NCC |
 | 2 | Đề xuất mua (PR) & Đơn mua (PO) | Chỉ đọc PO qua `cs_purchase_orders_list`, `cs_purchase_order_get` | Tạo/duyệt PR (`CS-PDX-01`, `02`), Tổng hợp PR→PO (`CS-MH-01`), Tạo/Sửa/Tách/Gộp/Gửi mail PO |
 | 3 | Nhập – Xuất – Chuyển – Kiểm kê kho | Chỉ đọc tồn hiện tại qua `cs_inventory_balances_list` | Giao nhận PO nhập kho, Phiếu xuất, Chuyển kho, Kiểm kê & Đặt lại tồn, Khóa kỳ NXT |
 

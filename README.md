@@ -2,10 +2,10 @@
 
 Plugin chính thức duy nhất của **CaterSoft** dành cho trợ lý AI trên **Claude Code**, **Google Antigravity (AGY)** và **OpenAI Codex**.
 
-- **Cổng hướng dẫn sử dụng:** [https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft](https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft) (dùng chung cho cả `https://catersoft.app` và `https://app.catersoft.vn`).
-- **Tài liệu kỹ thuật cho AI:** `https://catersoft.app/llms.txt` cùng 5 phân hệ (`/llms-meal.txt`, `/llms-inventory.txt`, `/llms-accounting.txt`, `/llms-hr.txt`, `/llms-settings.txt`) và chỉ mục `/llms-routes.json`.
-- **Máy chủ MCP từ xa:** `https://catersoft.app/mcp` (đăng nhập **OAuth 2.1 + PKCE** trực tiếp bằng tài khoản CaterSoft trên trình duyệt; không cần tạo hay dán API key thủ công).
-- **Phạm vi v1.2.0:** Gồm **10 kỹ năng nghiệp vụ trọn chuỗi** (*Thực đơn – Dự trù – Phần ăn*, *Mua hàng – Kho bình quân – Kiểm kê*, *Kho FIFO – Đối tác*, *Thu chi – Công nợ – KQKD*, *Nhân sự – Phân quyền*) kết hợp **80 công cụ MCP Giai đoạn 1** theo đúng công ty và quyền màn hình của tài khoản đang đăng nhập (bao gồm loại bếp, kế hoạch sản xuất chỉ đọc, danh sách thực đơn tuần, dự trù nguyên liệu ngày, chi tiết PO, tạo/sửa bếp, kho, ca ăn, điểm dự trù, nơi phục vụ, quy đổi ĐVT trên nguyên liệu; **không có công cụ xóa dữ liệu**).
+- **Cổng hướng dẫn & Hỏi đáp:** [https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft](https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft), tài liệu đầy đủ cho AI tại `https://guide.catersoft.vn/llms-full.txt` và hỏi đáp tại `https://hoi-dap.catersoft.vn/llms.txt` (dùng chung cho cả `https://catersoft.app` và `https://app.catersoft.vn`).
+- **Tài liệu kỹ thuật máy đọc (tenant app):** `https://catersoft.app/llms.txt` cùng `/llms-full.txt`, 5 phân hệ (`/llms-meal.txt`, `/llms-inventory.txt`, `/llms-accounting.txt`, `/llms-hr.txt`, `/llms-settings.txt`) và chỉ mục `/llms-routes.json`.
+- **Máy chủ MCP từ xa:** `https://catersoft.app/mcp` (chuẩn **OAuth 2.1 + PKCE**, kết nối trực tiếp từ Claude Code, AGY, OpenAI Codex, ChatGPT, Cursor hoặc mọi MCP client chuẩn; không cần tạo hay dán API key thủ công).
+- **Phạm vi v1.2.0:** Gồm **10 kỹ năng nghiệp vụ trọn chuỗi** (*Thực đơn – Dự trù – Phần ăn*, *Mua hàng – Kho bình quân – Kiểm kê*, *Kho FIFO – Đối tác*, *Thu chi – Công nợ – KQKD*, *Nhân sự – Phân quyền*) kết hợp **81 công cụ MCP Giai đoạn 1** theo đúng công ty và quyền màn hình của tài khoản đang đăng nhập (hỗ trợ tạo cơ sở `cs_facility_create` cho Admin+, tạo/sửa bếp, loại bếp, kho, ca ăn, điểm dự trù, nơi phục vụ, quy đổi ĐVT trên nguyên liệu với `expectedRecipeUnitId`, phân trang `offset`/`hasMore`, cảnh báo `daySourceSummary`/`frozenDayWarning`, và chỉ đọc kế hoạch sản xuất, thực đơn tuần, dự trù nguyên liệu ngày, chi tiết PO; **không có công cụ xóa dữ liệu**).
 
 ---
 

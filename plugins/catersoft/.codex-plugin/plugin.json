@@ -56,7 +56,7 @@
     "com.openai": {
       "onboardingSkill": "./skills/cs-ui-ban-do-thuc-don-du-tru/SKILL.md",
       "publication": {
-        "release_notes": "Phát hành CaterSoft v1.2.0: mở rộng bộ công cụ MCP Giai đoạn 1 hỗ trợ tạo/sửa bếp, kho, ca ăn, điểm dự trù, nơi phục vụ và khai ĐVT định lượng / quy đổi đơn vị ngay trên nguyên liệu; giữ nguyên nguyên tắc OAuth 2.1 theo quyền từng tài khoản và tuyệt đối không có công cụ xóa.",
+        "release_notes": "Phát hành CaterSoft v1.2.0: mở rộng bộ 81 công cụ MCP Giai đoạn 1 hỗ trợ tạo cơ sở (cs_facility_create, Admin+), tạo/sửa bếp, kho, ca ăn, điểm dự trù, nơi phục vụ, khai ĐVT định lượng / quy đổi đơn vị trên nguyên liệu kèm kiểm tra CAS expectedRecipeUnitId, phân trang offset/hasMore cho danh sách lớn, và cảnh báo daySourceSummary / frozenDayWarning; giữ nguyên OAuth 2.1 theo quyền từng tài khoản và tuyệt đối không có công cụ xóa.",
         "translations": {
           "vi-VN": {
             "subtitle": "Nhập liệu & MCP CaterSoft",

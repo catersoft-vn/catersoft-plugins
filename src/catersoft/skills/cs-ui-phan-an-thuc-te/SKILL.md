@@ -81,6 +81,6 @@ description: >-
 
 | STT | Tác vụ | Có thể dùng MCP Giai đoạn 1 | Cần thao tác trên Giao diện Web |
 | :-: | :--- | :--- | :--- |
-| 1 | Nơi phục vụ & Thiết lập | Đọc ID qua `cs_serving_locations_list`, `cs_meal_customer_types_list`, `cs_customers_list` | Tạo/sửa Nơi phục vụ (`CS-DTP-04`), Thiết lập số phần ăn theo bếp (`CS-DTP-03`), tạo snapshot cấu hình ngày |
+| 1 | Nơi phục vụ & Thiết lập | Đọc/tạo/sửa qua `cs_serving_locations_list`, `cs_serving_location_create`, `cs_serving_location_update`, `cs_meal_customer_types_list`, `cs_meal_customer_type_create`, `cs_meal_customer_type_update`, `cs_customers_list` | Thiết lập số phần ăn theo bếp (`CS-DTP-03`), tạo snapshot cấu hình ngày, xóa mềm / khôi phục Nơi phục vụ |
 | 2 | Nhập Số báo / Thực tế | `cs_actual_meal_servings_list`, `cs_actual_meal_serving_set` | Bấm «Lấy số từ dự trù» (`CS-DTP-01`), «Đồng bộ đơn giá» (`CS-DTP-01B`), nhập Doanh thu bổ sung |
 | 3 | Tổng hợp & Đối soát | Xem bảng kê nhanh qua `cs_actual_meal_servings_list` | Xuất Excel **Doanh thu SACN** (`CS-DTP-02`) và xử lý đối chiếu **So sánh dự trù - thực tế** (`CS-TDT-15`) |

@@ -17,7 +17,7 @@ description: >-
 | :-: | :--- | :--- | :--- |
 | 1 | Danh mục kế toán & Tài khoản NH | Chỉ đọc `cs_bank_accounts_list` | Thêm/sửa **Danh mục kế toán** (`CS-TC-03`: dòng tiền, phương thức, giai đoạn), chọn TK dùng cho Thu/Chi |
 | 2 | Đề nghị thanh toán & Phiếu thu/chi | Chỉ đọc `cs_financial_transactions_list`, `cs_financial_transaction_get` | Tạo/duyệt **ĐNTT** (`CS-TC-04`/`05`), lập **Phiếu thu/chi** (`CS-TC-08`), xử lý **Thu chưa xác định** |
-| 3 | Công nợ, Đối chiếu & Báo cáo KQKD | Đọc báo cáo tổng hợp qua `cs_aggregated_report_get` / `batch` | Đối chiếu công nợ (`CS-TC-07`), Sổ nợ/Tuổi nợ/Biên bản đối chiếu (`CS-TC-26..30`), Cấu hình & xem **P&L / KQKD** |
+| 3 | Công nợ, Đối chiếu & Báo cáo KQKD | Đọc báo cáo tổng hợp qua `cs_aggregated_report_get`, `cs_aggregated_reports_batch` | Đối chiếu công nợ (`CS-TC-07`), Sổ nợ/Tuổi nợ/Biên bản đối chiếu (`CS-TC-26..30`), Cấu hình & xem **P&L / KQKD** |
 
 ## 2. Bản đồ màn hình Thu chi – Công nợ – KQKD
 
