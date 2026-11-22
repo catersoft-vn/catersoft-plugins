@@ -25,9 +25,9 @@ description: >-
 | :-: | :--- | :--- | :--- | :--- | :--- |
 | 1 | Quy trình Mua Hàng | Quy trình Mua Hàng | `/inventory/purchase-order` | `CS-MH-19` | Toàn cảnh luồng Đề xuất mua → Đơn mua → Giao nhận |
 | 2 | Tạo PR V2 | Tạo phiếu đề xuất (V2) | `/inventory/create-purchase-request-v2` | `CS-PDX-01` | Lập phiếu đề xuất mua hàng mới (nhập tay hoặc lấy từ dự trù) |
-| 3 | DS PR | Danh sách đề xuất mua | `/inventory/purchase-requests` | `CS-PDX-04` | Theo dõi, lọc và duyệt đề xuất mua |
+| 3 | DS PR | Phiếu Đề Xuất | `/inventory/purchase-requests` | `CS-PDX-04` | Theo dõi, lọc và duyệt đề xuất mua |
 | 4 | Tạo PO (Đơn giản) | Tạo đơn đặt hàng (PO) | `/inventory/purchase-orders-simple/create-simple` | `CS-MH-11` | Tạo nhanh đơn đặt hàng một NCC hoặc nhiều NCC (`CS-MH-23`) |
-| 5 | DS PO (Đơn giản / V2) | Đơn đặt hàng (PO) / Quản lý đơn mua V2 | `/inventory/purchase-orders-simple`, `/inventory/purchase-orders-v2` | `CS-MH-12`, `CS-MH-03` | Quản lý trạng thái PO, mở chi tiết, xác nhận đặt hàng |
+| 5 | DS PO (Đơn giản / V2) | Đơn đặt hàng (PO) / Đơn đặt hàng (V2) | `/inventory/purchase-orders-simple`, `/inventory/purchase-orders-v2` | `CS-MH-12`, `CS-MH-03` | Quản lý trạng thái PO, mở chi tiết, xác nhận đặt hàng |
 | 6 | Giao nhận & Nhập kho | Bảng kê giao nhận / Nhập kho từ PO | `/inventory/purchase-orders-simple/goods-receipt`, `/inventory/goods-receipt-v2` | `CS-MH-21`, `CS-QLK-01` | Ghi nhận số thực nhận đối chiếu NCC và chốt nhập kho từ PO |
 | 7 | Tách / Gộp / Gửi mail PO | Xử lý đơn đặt hàng | `/inventory/split-purchase-order`, `/inventory/purchase-order-merge`, `/inventory/purchase-order-mail` | `CS-MH-05`, `CS-MH-04`, `CS-MH-10` | Tách PO nhiều đợt, gộp nhiều PO nháp, gửi mail PO cho NCC |
 | 8 | Quản lý Kho | Giao dịch nhập xuất / Tồn kho / Xuất dùng | `/inventory`, `/inventory/stock-transactions`, `/inventory/stock-balance`, `/inventory/daily-issues` | `CS-QLK-17`, `CS-QLK-06`, `CS-QLK-09`, `CS-NXT-10` | Xem mọi phiếu nhập/xuất, tra số dư tồn và ghi nhận xuất bếp ngày |

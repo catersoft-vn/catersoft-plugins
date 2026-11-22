@@ -46,14 +46,14 @@ description: >-
 3. **«Lấy số từ dự trù»** → cửa sổ «Lấy số phần từ dự trù»: chọn **«Chỉ ô đang trống»** hoặc **«Ghi đè tất cả»** (hỏi người dùng trước khi ghi đè) → xem cột «Số báo hiện tại» / «Sẽ điền» → **«Điền N ô»**. Số lấy là số phần **món chính + SP. thêm** của từng phần trong dự trù (số đã ghi tay ở bảng «Doanh thu cơm thực tế» của Dự trù ngày thì ưu tiên), đổ vào cột theo «Nhóm món bên dự trù». Số được điền vào **Số báo** và **tự lưu ngay** (chân hộp vẫn ghi «vẫn phải bấm Lưu thay đổi» — câu này đã cũ).
 4. **Lưu:** trang **tự lưu** sau mỗi ô; nhãn trạng thái cạnh ô Bếp hiện «Chờ lưu» → «Đang lưu» → «Đã lưu». «Lưu lỗi» thì bấm **«Thử lại»**; chờ «Đã lưu» trước khi đổi ngày/bếp.
 5. Khối **«Doanh thu bổ sung»** (bung ra nếu đang thu gọn): «Thêm doanh thu mặt hàng», «Thêm doanh thu khác» — lưu ngay trong cửa sổ, không qua bộ đệm. Cuối trang **«Tổng doanh thu trang»** cộng doanh thu phần ăn + mặt hàng + khác.
-6. **Thao tác:** «Tải lại», «Cập nhật thiết lập» (chép cấu hình mới nhất của bếp đè lên bản của ngày).
+6. **Thao tác:** «Tải lại», «Cập nhật cấu hình ngày mới nhất» (chép cấu hình mới nhất của bếp đè lên bản của ngày).
 7. Đơn giá: lấy giá theo nhóm món trong Thiết lập số phần ăn; chưa có thì lấy giá của Nơi phục vụ.
 
 ## 5. Phần ăn thực tế — `/weekly-meal-plan/actual-meal-servings`
 
 1. Mỗi ca một bảng, dòng = Nơi phục vụ. Nhập **«Số báo»** và **«Số thực tế»**; Enter xuống dòng. Các cột Số thanh toán, Chênh lệch, Đơn giá, Giá trị TT tự tính.
 2. Lưu bằng **«Lưu thay đổi»** ở tiêu đề từng ca (rời trang khi chưa lưu sẽ được cảnh báo).
-3. **Thao tác:** «Tải lại», «Cập nhật cấu hình mới», **«Đồng bộ đơn giá»** (áp lại giá hiện tại của Nơi phục vụ; xem trước rồi ghi, **không hoàn tác** → hỏi người dùng).
+3. **Thao tác:** «Tải lại», «Cập nhật cấu hình ngày mới nhất», **«Đồng bộ đơn giá»** (áp lại giá hiện tại của Nơi phục vụ; xem trước rồi ghi, **không hoàn tác** → hỏi người dùng).
 4. Trang này không có «Lấy số từ dự trù».
 5. Khối **«Doanh thu bổ sung»** (doanh thu mặt hàng, doanh thu khác) cũng có ở cuối trang này, dùng như trên trang pivot.
 

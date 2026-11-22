@@ -1,6 +1,6 @@
 # CaterSoft — Plugin Chính thức (Kỹ năng Nhập liệu & MCP OAuth 2.1)
 
-Plugin chính thức duy nhất của **CaterSoft** dành cho trợ lý AI trên **Claude Code**, **Google Antigravity (AGY)** và **OpenAI Codex**.
+Plugin chính thức duy nhất của **CaterSoft** dành cho trợ lý AI trên **Claude Code**, **Google Antigravity (AGY)**, **OpenAI Codex**, **ChatGPT Connectors** và **Cursor / Claude Desktop**.
 
 - **Cổng hướng dẫn & Hỏi đáp:** [https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft](https://guide.catersoft.vn/bat-dau/tro-ly-ai-catersoft), tài liệu đầy đủ cho AI tại `https://guide.catersoft.vn/llms-full.txt` và hỏi đáp tại `https://hoi-dap.catersoft.vn/llms.txt` (dùng chung cho cả `https://catersoft.app` và `https://app.catersoft.vn`).
 - **Tài liệu kỹ thuật máy đọc (tenant app):** `https://catersoft.app/llms.txt` cùng `/llms-full.txt`, 5 phân hệ (`/llms-meal.txt`, `/llms-inventory.txt`, `/llms-accounting.txt`, `/llms-hr.txt`, `/llms-settings.txt`) và chỉ mục `/llms-routes.json`.
@@ -9,13 +9,15 @@ Plugin chính thức duy nhất của **CaterSoft** dành cho trợ lý AI trên
 
 ---
 
-## Cài đặt nhanh trên 3 nền tảng
+## Cài đặt nhanh trên 5 nền tảng
 
-| STT | Tên ngắn | Nền tảng | Lệnh cài từ Marketplace GitHub |
+| STT | Tên ngắn | Nền tảng | Lệnh / Cách cài đặt |
 | :-: | :--- | :--- | :--- |
 | 1 | Claude Code | Claude Code CLI / Desktop | `claude plugin marketplace add catersoft-vn/catersoft-plugins` rồi `claude plugin install catersoft@catersoft-plugins` |
 | 2 | Antigravity AGY | Google Antigravity | `agy plugin install https://github.com/catersoft-vn/catersoft-plugins/tree/main/plugins/catersoft` |
-| 3 | OpenAI Codex | Codex CLI / App | `codex plugin marketplace add catersoft-vn/catersoft-plugins` rồi bật `catersoft` trong `/plugins` |
+| 3 | OpenAI Codex | Codex CLI / App | `codex plugin marketplace add catersoft-vn/catersoft-plugins` rồi `codex plugin add catersoft@catersoft-plugins` |
+| 4 | ChatGPT Connectors | ChatGPT (Connectors / Developer Mode) | Thêm Custom MCP Connector URL `https://catersoft.app/mcp` (OAuth 2.1 + PKCE) — cung cấp **81 công cụ MCP** (không kèm 10 skills hướng dẫn UI) |
+| 5 | Cursor / Claude Desktop | Cursor (`.cursor/mcp.json`) / Claude Desktop Connectors | Khai báo `url: "https://catersoft.app/mcp"` trong `.cursor/mcp.json` hoặc Connectors — cung cấp **81 công cụ MCP** (không kèm 10 skills hướng dẫn UI) |
 
 Sau khi cài đặt, khi gọi công cụ CaterSoft MCP lần đầu, trình duyệt sẽ tự mở màn hình **Cấp quyền Trợ lý AI (MCP)** tại CaterSoft để bạn đăng nhập, chọn đúng công ty đang làm việc và xác nhận. Token ngắn hạn sẽ được cấp riêng cho chính tài khoản đó và tự động làm mới an toàn.
 

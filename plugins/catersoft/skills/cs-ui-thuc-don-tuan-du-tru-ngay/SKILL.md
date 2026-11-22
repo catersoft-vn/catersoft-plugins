@@ -140,5 +140,5 @@ Nhận ra: tiêu đề có công tắc **«Tự lưu»** và nút «Tải lại�
 | Việc | MCP Giai đoạn 1 | Giao diện Web |
 | :--- | :--- | :--- |
 | Thực đơn tuần (`CS-TDT-01`) | `cs_meal_plans_list`, `cs_weekly_meal_plans_list`, `cs_weekly_meal_plan_cells_by_day`, `cs_weekly_meal_plan_cell_set_dish`, `cs_weekly_meal_plan_cell_set_servings` | Khởi tạo/Copy tuần, Cập nhật cấu hình, In PDF, Xóa ô |
-| Dự trù ngày (`CS-TDT-02`/`03`) | Xem nguyên liệu tổng hợp ngày `cs_meal_forecast_daily`; đọc công thức `cs_recipe_get`, `cs_recipe_ingredients_list` | Nhập/tải File đặt hàng, Đồng bộ bản lưu công thức |
+| Dự trù ngày (`CS-TDT-02`/`03`) | Đọc `cs_meal_forecast_daily`, `cs_beverage_forecast_requirements`, `cs_recipe_get`, `cs_recipe_ingredients_list` | Nhập/tải File đặt hàng, Đồng bộ công thức |
 | Giá & P&L | Đọc NCC `cs_suppliers_list` | Sửa `CS-TDT-05`, `CS-QTH-01B` |

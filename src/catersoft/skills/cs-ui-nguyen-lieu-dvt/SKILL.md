@@ -67,7 +67,7 @@ description: >-
 ## 5. Thao tác nâng cao & Dọn dẹp hàng loạt (Menu Thao tác)
 
 Trên thanh công cụ Danh sách nguyên liệu (`CS-MNL-05`), menu Popover **«Thao tác»** gom các chức năng xử lý hàng loạt:
-- **Tải lại (`CS-MNL-05-F01`):** Làm mới danh sách và xóa sạch bộ đệm hiển thị.
+- **Tải lại (`CS-MNL-05-F06`):** Làm mới danh sách và xóa sạch bộ đệm hiển thị.
 - **Upload Excel (`CS-MNL-05-F09`) / Tải lên TLHH sơ chế (`CS-MNL-05-F10`):** Nhập hàng loạt từ file bảng tính.
 - **Xóa ĐVT định lượng (`CS-MNL-05-F11`):** Xóa trắng trường `recipeUnitId` của các nguyên liệu đang chọn khi muốn quay về dùng hoàn toàn Đơn vị cơ bản làm định lượng.
 - **Xóa dữ liệu "gam" (`CS-MNL-05-F12`):** Dọn dẹp các quy đổi đơn vị thừa hoặc không chuẩn liên quan đến đơn vị "gam" trong danh sách đã chọn.

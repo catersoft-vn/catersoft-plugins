@@ -55,10 +55,10 @@ description: >-
    - Chọn NHTĐ ở ô **«Chọn tên NHTĐ»** (`F01` — `selectRecipe`): hộp chọn `RecipePickerSelect` hiển thị cả Tên và Mã NHTĐ; tự động nạp bảng ngay khi chọn, không cần ấn nút tìm.
    - Thanh công cụ gồm các nút:
      - **«Chọn tên NHTĐ»** (`F01` — `selectRecipe`): Hộp chọn ngân hàng thực đơn đang thao tác.
-     - **«Thêm mới công thức»** (`F02`, Shift+1 — `createDishRecipe`): Nút mở modal chọn món và thêm nguyên liệu định lượng.
+     - **«Thêm mới»** (`F02`, Shift+1 — `createDishRecipe`): Nút mở modal chọn món và thêm nguyên liệu định lượng.
      - **«Mới (nhiều NHTĐ)»** (`F04` — `createManyRecipes`): Nút màu cam trên toolbar mở `RecipesManyRecipesModal`.
      - **«Danh sách tên NHTĐ»** (`F05` — `openRecipeList`): Nút «Tên NHTĐ» trên toolbar mở drawer quản lý danh sách NHTĐ.
-     - **«Lịch sử lưu»** (`F09` — `saveHistory`): Nút «Lịch sử lưu» trên toolbar mở modal `RecipeSaveHistoryModal` xem lịch sử lưu NHTĐ & định lượng.
+     - **«Lịch sử thay đổi»** (`F09` — `saveHistory`): Nút «Lịch sử thay đổi» trên toolbar mở modal `RecipeSaveHistoryModal` xem lịch sử lưu NHTĐ & định lượng.
      - Menu **«Thao tác»** (`ActionPopoverButton`).
      - Trên màn hình di động (≤480px), các nút phụ thu gọn vào menu dấu ba chấm (`...`).
    - Bấm **«Thêm mới»** (Shift+1) → cửa sổ **«Tạo công thức món ăn»** (`F02` — `createDishRecipe`): chọn món ăn → mỗi dòng chọn «Nguyên liệu», nhập «Định lượng» (> 0) cho **một phần ăn**; ĐVT tự điền theo ĐVT định lượng của nguyên liệu. Có nút «Copy công thức» để sao chép từ món/NHTĐ khác → **«Tạo mới»**. Nhập nhanh: chọn nguyên liệu → Enter sang ô Định lượng → Enter để thêm dòng.
